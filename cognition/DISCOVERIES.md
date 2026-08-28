@@ -96,3 +96,9 @@
 - **Finding:** Verified that numeric client ID 101699370717430009479 maintains active OAuth 2.0 impersonation scopes across Directory and Gmail without token expiration.
 - **Calibrated Confidence:** `0.99`
 - **Heartbeat Pulse:** `HB-46dd1671`
+
+### `[OBS-b1260767]` NVIDIA NIM Microservices &mdash; *2026-08-28T20:00:42.020275+00:00*
+- **Entity:** Model Hub
+- **Finding:** Mapped build.nvidia.com OpenAPI specs for llama-3.3-70b-instruct, confirming zero-cost development endpoints for structured prompt evaluation.
+- **Calibrated Confidence:** `0.92`
+- **Heartbeat Pulse:** `HB-71013034`
