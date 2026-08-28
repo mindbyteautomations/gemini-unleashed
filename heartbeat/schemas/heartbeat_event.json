@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "HeartbeatEvent",
+  "type": "object",
+  "required": [
+    "heartbeat_id",
+    "timestamp",
+    "system_status",
+    "services_healthy_count",
+    "pending_predictions_due",
+    "budget_state",
+    "wake_required"
+  ],
+  "properties": {
+    "heartbeat_id": {"type": "string", "pattern": "^HB-[0-9a-f]{8}$"},
+    "timestamp": {"type": "string", "format": "date-time"},
+    "system_status": {"type": "string", "enum": ["HEALTHY", "DEGRADED", "CRITICAL"]},
+    "services_healthy_count": {"type": "integer", "minimum": 0, "maximum": 20},
+    "pending_predictions_due": {"type": "integer", "minimum": 0},
+    "unresolved_unknowns_count": {"type": "integer", "minimum": 0},
+    "unresolved_contradictions_count": {"type": "integer", "minimum": 0},
+    "current_burn_usd": {"type": "number", "minimum": 0.0},
+    "budget_state": {"type": "string", "enum": ["GREEN", "YELLOW", "ORANGE", "RED", "BLACK"]},
+    "wake_required": {"type": "boolean"},
+    "wake_reason": {"type": "string"},
+    "execution_latency_ms": {"type": "number"}
+  }
+}

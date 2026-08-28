@@ -1,5 +1,5 @@
 {
-  "version": "1.1.0",
+  "version": "1.2.0",
   "authority_level_enforced": true,
   "agents": {
     "human_operator": {
@@ -8,6 +8,32 @@
       "authority_level": 0,
       "responsibilities": ["Constitutional authority", "Break-glass authority", "Budget authority", "Production authorization"],
       "unrestricted": true
+    },
+    "heartbeat_supervisor": {
+      "name": "Heartbeat Supervisor (Deterministic)",
+      "identity": "heartbeat-supervisor-daemon",
+      "authority_level": 3,
+      "responsibilities": ["Inspect system state", "Evaluate 6 deterministic wake conditions", "Generate signed WAKE_REQUEST events", "Log temporal heartbeats"],
+      "execution_authority": false,
+      "wake_authority": true,
+      "reasoning": false,
+      "deterministic": true
+    },
+    "budget_guardian": {
+      "name": "Budget Guardian (Deterministic)",
+      "identity": "budget-guardian-policy",
+      "authority_level": 2,
+      "responsibilities": ["Enforce $130 monthly credit envelope", "Calculate projected burn", "Deterministic circuit breaker", "Halt compute on threshold exceedance"],
+      "execution_authority": true,
+      "deterministic": true
+    },
+    "security_guardian": {
+      "name": "Security Guardian & Constitutional Firewall",
+      "identity": "security-guardian-policy",
+      "authority_level": 2,
+      "responsibilities": ["Verify Task Envelopes", "Enforce Can Do vs May Do", "Block unauthorized IAM/billing mutations", "Enforce audit logging"],
+      "execution_authority": true,
+      "deterministic": true
     },
     "gemini_core": {
       "name": "Gemini Cognitive Core",
@@ -32,22 +58,6 @@
       "responsibilities": ["Asynchronous implementation", "GitHub Issue to PR lifecycles", "Code refactoring", "Unit testing"],
       "execution_authority": true,
       "max_policy_level": 3
-    },
-    "budget_guardian": {
-      "name": "Budget Guardian (Deterministic)",
-      "identity": "budget-guardian-policy",
-      "authority_level": 2,
-      "responsibilities": ["Enforce $130 monthly credit envelope", "Calculate projected burn", "Deterministic circuit breaker", "Halt compute on threshold exceedance"],
-      "execution_authority": true,
-      "deterministic": true
-    },
-    "security_guardian": {
-      "name": "Security Guardian & Constitutional Firewall",
-      "identity": "security-guardian-policy",
-      "authority_level": 2,
-      "responsibilities": ["Verify Task Envelopes", "Enforce Can Do vs May Do", "Block unauthorized IAM/billing mutations", "Enforce audit logging"],
-      "execution_authority": true,
-      "deterministic": true
     }
   }
 }

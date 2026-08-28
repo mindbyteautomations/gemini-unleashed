@@ -1,0 +1,40 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "WakeRequest",
+  "type": "object",
+  "required": [
+    "wake_id",
+    "heartbeat_id",
+    "timestamp",
+    "wake_reason",
+    "priority",
+    "target_actor",
+    "task_payload"
+  ],
+  "properties": {
+    "wake_id": {"type": "string", "pattern": "^WAKE-[0-9a-f]{8}$"},
+    "heartbeat_id": {"type": "string", "pattern": "^HB-[0-9a-f]{8}$"},
+    "timestamp": {"type": "string", "format": "date-time"},
+    "wake_reason": {
+      "type": "string",
+      "enum": [
+        "prediction_due",
+        "experiment_awaiting_evaluation",
+        "critical_service_failure",
+        "contradiction_detected",
+        "high_priority_unknown",
+        "scheduled_task_due"
+      ]
+    },
+    "priority": {
+      "type": "string",
+      "enum": ["LOW", "NORMAL", "HIGH", "EMERGENCY"]
+    },
+    "target_actor": {
+      "type": "string",
+      "enum": ["gemini_core", "antigravity_orchestrator", "jules_worker", "human_operator"]
+    },
+    "estimated_cost_usd": {"type": "number", "minimum": 0.0},
+    "task_payload": {"type": "object"}
+  }
+}
