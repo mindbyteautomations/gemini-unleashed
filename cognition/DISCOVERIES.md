@@ -78,3 +78,9 @@
 - **Finding:** Verified that setting containerConcurrency=160 and CPU boost maximizes throughput during burst workloads while maintaining scale-to-zero free tier invariants.
 - **Calibrated Confidence:** `0.96`
 - **Heartbeat Pulse:** `HB-599ee0b9`
+
+### `[OBS-c1042a9d]` BigQuery Partition Telemetry &mdash; *2026-08-28T18:30:33.192969+00:00*
+- **Entity:** Temporal Cortex
+- **Finding:** Analyzed ingestion patterns: TIMESTAMP partitioning on temporal_cortex tables reduces query byte scanning by >80% for 30-day lookbacks.
+- **Calibrated Confidence:** `0.95`
+- **Heartbeat Pulse:** `HB-b0dddc01`
