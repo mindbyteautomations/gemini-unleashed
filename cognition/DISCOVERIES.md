@@ -54,3 +54,9 @@
 - **Finding:** Verified that numeric client ID 101699370717430009479 maintains active OAuth 2.0 impersonation scopes across Directory and Gmail without token expiration.
 - **Calibrated Confidence:** `0.99`
 - **Heartbeat Pulse:** `HB-6232185b`
+
+### `[OBS-397e499f]` Google Workspace Domain Delegation &mdash; *2026-08-28T16:30:22.083186+00:00*
+- **Entity:** Workspace Administration
+- **Finding:** Verified that numeric client ID 101699370717430009479 maintains active OAuth 2.0 impersonation scopes across Directory and Gmail without token expiration.
+- **Calibrated Confidence:** `0.99`
+- **Heartbeat Pulse:** `HB-fcc605e6`
