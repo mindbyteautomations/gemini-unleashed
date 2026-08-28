@@ -156,3 +156,9 @@
 - **Finding:** Mapped build.nvidia.com OpenAPI specs for llama-3.3-70b-instruct, confirming zero-cost development endpoints for structured prompt evaluation.
 - **Calibrated Confidence:** `0.92`
 - **Heartbeat Pulse:** `HB-decc568a`
+
+### `[OBS-9c7da84e]` NVIDIA NIM Microservices &mdash; *2026-08-28T23:24:39.476073+00:00*
+- **Entity:** Model Hub
+- **Finding:** Mapped build.nvidia.com OpenAPI specs for llama-3.3-70b-instruct, confirming zero-cost development endpoints for structured prompt evaluation.
+- **Calibrated Confidence:** `0.92`
+- **Heartbeat Pulse:** `HB-a17c3c2a`
