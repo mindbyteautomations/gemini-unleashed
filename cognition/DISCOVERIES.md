@@ -48,3 +48,9 @@
 - **Finding:** Confirmed cosine similarity on 768-dim embeddings achieves sub-5ms semantic recall across long-term episodic memories.
 - **Calibrated Confidence:** `0.94`
 - **Heartbeat Pulse:** `HB-92ba5635`
+
+### `[OBS-59ae764a]` Google Workspace Domain Delegation &mdash; *2026-08-28T16:30:09.254061+00:00*
+- **Entity:** Workspace Administration
+- **Finding:** Verified that numeric client ID 101699370717430009479 maintains active OAuth 2.0 impersonation scopes across Directory and Gmail without token expiration.
+- **Calibrated Confidence:** `0.99`
+- **Heartbeat Pulse:** `HB-6232185b`
