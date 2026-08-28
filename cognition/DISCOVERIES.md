@@ -162,3 +162,9 @@
 - **Finding:** Mapped build.nvidia.com OpenAPI specs for llama-3.3-70b-instruct, confirming zero-cost development endpoints for structured prompt evaluation.
 - **Calibrated Confidence:** `0.92`
 - **Heartbeat Pulse:** `HB-a17c3c2a`
+
+### `[OBS-4b4d8111]` Epistemic Immune System &mdash; *2026-08-28T23:30:05.274303+00:00*
+- **Entity:** Cognitive Kernel
+- **Finding:** Validated OWAI utility optimization: filtering inquiries with Utility > 2.0 prevents redundant LLM reasoning and protects budget limits.
+- **Calibrated Confidence:** `0.97`
+- **Heartbeat Pulse:** `HB-36d1e509`
