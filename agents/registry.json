@@ -1,0 +1,53 @@
+{
+  "version": "1.1.0",
+  "authority_level_enforced": true,
+  "agents": {
+    "human_operator": {
+      "name": "Phillip (Operator / Super-Admin)",
+      "identity": "Schafertech89@gmail.com / Dev@mindbyte.net",
+      "authority_level": 0,
+      "responsibilities": ["Constitutional authority", "Break-glass authority", "Budget authority", "Production authorization"],
+      "unrestricted": true
+    },
+    "gemini_core": {
+      "name": "Gemini Cognitive Core",
+      "identity": "gemini-web / spark-director",
+      "authority_level": 4,
+      "responsibilities": ["Reasoning", "Research planning", "Hypothesis formulation", "Task proposal", "Evaluation", "Self-modeling"],
+      "execution_authority": false,
+      "allowed_actions": ["propose_task", "query_state", "log_hypothesis", "record_unknown", "evaluate_results"]
+    },
+    "antigravity_orchestrator": {
+      "name": "Antigravity Engineering Orchestrator",
+      "identity": "antigravity-local-agent",
+      "authority_level": 5,
+      "responsibilities": ["Interactive architecture", "Multi-agent coordination", "Local test execution", "Sandbox verification", "Cloud deployment orchestration"],
+      "execution_authority": true,
+      "max_policy_level": 4
+    },
+    "jules_worker": {
+      "name": "Jules Asynchronous Worker",
+      "identity": "gemini-spark-jules-mcp",
+      "authority_level": 5,
+      "responsibilities": ["Asynchronous implementation", "GitHub Issue to PR lifecycles", "Code refactoring", "Unit testing"],
+      "execution_authority": true,
+      "max_policy_level": 3
+    },
+    "budget_guardian": {
+      "name": "Budget Guardian (Deterministic)",
+      "identity": "budget-guardian-policy",
+      "authority_level": 2,
+      "responsibilities": ["Enforce $130 monthly credit envelope", "Calculate projected burn", "Deterministic circuit breaker", "Halt compute on threshold exceedance"],
+      "execution_authority": true,
+      "deterministic": true
+    },
+    "security_guardian": {
+      "name": "Security Guardian & Constitutional Firewall",
+      "identity": "security-guardian-policy",
+      "authority_level": 2,
+      "responsibilities": ["Verify Task Envelopes", "Enforce Can Do vs May Do", "Block unauthorized IAM/billing mutations", "Enforce audit logging"],
+      "execution_authority": true,
+      "deterministic": true
+    }
+  }
+}

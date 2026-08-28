@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.env
+.venv/
+env/
+venv/
+
+# Secrets & Service Account Keys
+*.json.key
+*secret*
+*token*
+!agents/registry.json
+!capabilities/registry.json
+!schemas/task_envelope.json
+
+# Logs
+*.log

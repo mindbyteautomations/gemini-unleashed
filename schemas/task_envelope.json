@@ -1,0 +1,84 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "TaskEnvelope",
+  "type": "object",
+  "required": [
+    "task_id",
+    "created_at",
+    "origin",
+    "objective",
+    "authorization",
+    "scope",
+    "budget",
+    "success_criteria",
+    "rollback"
+  ],
+  "properties": {
+    "task_id": {
+      "type": "string",
+      "pattern": "^TASK-[0-9]{6}$"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "origin": {
+      "type": "object",
+      "required": ["actor", "cycle_id"],
+      "properties": {
+        "actor": {"type": "string"},
+        "cycle_id": {"type": "string"}
+      }
+    },
+    "objective": {
+      "type": "object",
+      "required": ["description"],
+      "properties": {
+        "description": {"type": "string"},
+        "motivation": {"type": "string"}
+      }
+    },
+    "authorization": {
+      "type": "object",
+      "required": ["policy_level", "human_approval_required"],
+      "properties": {
+        "policy_level": {"type": "integer", "minimum": 0, "maximum": 7},
+        "human_approval_required": {"type": "boolean"},
+        "approver": {"type": "string"}
+      }
+    },
+    "scope": {
+      "type": "object",
+      "required": ["repositories", "allowed_actions", "forbidden_actions"],
+      "properties": {
+        "repositories": {"type": "array", "items": {"type": "string"}},
+        "services": {"type": "array", "items": {"type": "string"}},
+        "allowed_actions": {"type": "array", "items": {"type": "string"}},
+        "forbidden_actions": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "budget": {
+      "type": "object",
+      "required": ["max_usd"],
+      "properties": {
+        "max_usd": {"type": "number", "minimum": 0.0, "maximum": 10.0}
+      }
+    },
+    "success_criteria": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "rollback": {
+      "type": "object",
+      "required": ["method"],
+      "properties": {
+        "method": {"type": "string", "enum": ["git_revert", "cloud_run_rollback", "firestore_restore", "manual"]},
+        "target_revision": {"type": "string"}
+      }
+    },
+    "evidence_required": {
+      "type": "array",
+      "items": {"type": "string"}
+    }
+  }
+}
