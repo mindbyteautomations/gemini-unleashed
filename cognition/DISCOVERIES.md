@@ -108,3 +108,9 @@
 - **Finding:** Validated OWAI utility optimization: filtering inquiries with Utility > 2.0 prevents redundant LLM reasoning and protects budget limits.
 - **Calibrated Confidence:** `0.97`
 - **Heartbeat Pulse:** `HB-1cc81426`
+
+### `[OBS-6039cfc9]` Cloud Run Concurrency &mdash; *2026-08-28T21:01:03.806596+00:00*
+- **Entity:** Infrastructure Scaling
+- **Finding:** Verified that setting containerConcurrency=160 and CPU boost maximizes throughput during burst workloads while maintaining scale-to-zero free tier invariants.
+- **Calibrated Confidence:** `0.96`
+- **Heartbeat Pulse:** `HB-8b75d521`
