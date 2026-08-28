@@ -1,0 +1,215 @@
+[
+  {
+    "id": "workspace-admin-gmail-mcp-service",
+    "memory_type": "semantic",
+    "owner_id": "antigravity-user",
+    "created_at": "2026-08-28T03:28:20.573Z",
+    "text": "Upgraded Google Workspace & Gmail MCP Server at https://gemini-spark-workspace-admin-mcp-274212548408.us-central1.run.app for Dev@mindbyte.net with tools: send_email, list_recent_emails, get_email, inspect_domain_dns_posture, list_workspace_users, create_workspace_user, list_workspace_groups. DWD Client ID: 101699370717430009479.",
+    "topics": [
+      "workspace-admin",
+      "gmail",
+      "send-email",
+      "read-email",
+      "mindbyte-net",
+      "mcp",
+      "gemini-web",
+      "gemini-spark",
+      "cloudrun"
+    ]
+  },
+  {
+    "id": "antigravity-workspace-preference-1",
+    "memory_type": "semantic",
+    "owner_id": "antigravity-user",
+    "created_at": "2026-08-27T23:34:25.557Z",
+    "text": "User wants Antigravity to persist and recall workspace memories, architecture decisions, and configurations using the Redis Agent Memory service.",
+    "topics": [
+      "preferences",
+      "redis-memory",
+      "workspace"
+    ]
+  },
+  {
+    "id": "workspace-admin-mcp-service",
+    "memory_type": "semantic",
+    "owner_id": "antigravity-user",
+    "created_at": "2026-08-28T03:18:17.657Z",
+    "text": "Deployed Google Workspace Super-Admin MCP Server for mindbyte.net (Dev@mindbyte.net) at https://gemini-spark-workspace-admin-mcp-274212548408.us-central1.run.app for Gemini Web App with OAuth 2.0 and tools: inspect_domain_dns_posture, list_workspace_users, create_workspace_user, list_workspace_groups, get_workspace_admin_guide.",
+    "topics": [
+      "workspace-admin",
+      "mindbyte-net",
+      "google-workspace",
+      "dns",
+      "mcp",
+      "gemini-web",
+      "gemini-spark",
+      "oauth2",
+      "cloudrun"
+    ]
+  },
+  {
+    "id": "workspace-omnipotent-55-tools-service",
+    "memory_type": "semantic",
+    "owner_id": "antigravity-user",
+    "created_at": "2026-08-28T03:42:43.561Z",
+    "text": "Deployed Google Workspace Complete Omnipotent Master MCP Server at https://gemini-spark-workspace-admin-mcp-274212548408.us-central1.run.app with 55 first-class tools mapped 1-to-1 to all Admin Console sidebar sections (Directory, Devices, Chat, Cloud Search, Vault, Security Alert Center, Audit Reports, Billing, Licenses, Storage, Drive, Docs, Sheets, Slides, Calendar, Tasks, Contacts, Gmail) and a universal raw API dispatcher.",
+    "topics": [
+      "workspace-omnipotent",
+      "55-tools",
+      "admin-console-full",
+      "devices",
+      "chat",
+      "cloudsearch",
+      "vault",
+      "alertcenter",
+      "reports-audit",
+      "billing-licenses",
+      "storage",
+      "drive",
+      "docs",
+      "sheets",
+      "slides",
+      "calendar",
+      "tasks",
+      "contacts",
+      "gmail",
+      "cloudrun"
+    ]
+  },
+  {
+    "id": "workspace-omnipotent-mcp-service",
+    "memory_type": "semantic",
+    "owner_id": "antigravity-user",
+    "created_at": "2026-08-28T03:33:59.572Z",
+    "text": "Deployed Google Workspace Omnipotent Master MCP Server at https://gemini-spark-workspace-admin-mcp-274212548408.us-central1.run.app with 20 native tools covering Drive, Docs, Sheets, Calendar, Tasks, Gmail, and Directory API for Dev@mindbyte.net. DWD Client ID: 101699370717430009479.",
+    "topics": [
+      "workspace-omnipotent",
+      "google-drive",
+      "google-docs",
+      "google-sheets",
+      "google-calendar",
+      "google-tasks",
+      "gmail",
+      "directory-api",
+      "mindbyte-net",
+      "mcp",
+      "gemini-web",
+      "gemini-spark",
+      "cloudrun"
+    ]
+  },
+  {
+    "id": "524938a6b57a4717bb0c703ce8e31ee0",
+    "memory_type": "episodic",
+    "session_id": "antigravity-session-main",
+    "owner_id": "antigravity-user",
+    "created_at": "2026-08-27T23:35:01.448Z",
+    "text": "User is configuring Redis Agent Memory integration for Antigravity workspace on August 27, 2026.",
+    "topics": [
+      "episodic-session",
+      "setup"
+    ]
+  },
+  {
+    "id": "context7-mcp-service",
+    "memory_type": "semantic",
+    "owner_id": "antigravity-user",
+    "created_at": "2026-08-28T03:18:17.657Z",
+    "text": "Deployed Upstash Context7 MCP Server at https://gemini-spark-context7-mcp-274212548408.us-central1.run.app for Gemini Web App with OAuth 2.0 and tools: resolve_library_context, login_with_google_credentials, get_context7_guide.",
+    "topics": [
+      "context7",
+      "upstash",
+      "documentation",
+      "mcp",
+      "gemini-web",
+      "gemini-spark",
+      "oauth2",
+      "cloudrun"
+    ]
+  },
+  {
+    "id": "workspace-omnipotent-31-tools-service",
+    "memory_type": "semantic",
+    "owner_id": "antigravity-user",
+    "created_at": "2026-08-28T03:39:54.732Z",
+    "text": "Upgraded Google Workspace Omnipotent Master MCP Server at https://gemini-spark-workspace-admin-mcp-274212548408.us-central1.run.app to 31 native tools with complete browser-equivalent coverage and a universal raw API dispatcher.",
+    "topics": [
+      "workspace-omnipotent",
+      "31-tools",
+      "universal-api-caller",
+      "drive",
+      "docs",
+      "sheets",
+      "slides",
+      "calendar",
+      "tasks",
+      "contacts",
+      "gmail",
+      "directory",
+      "cloudrun"
+    ]
+  },
+  {
+    "id": "master-state-temporal-cortex-mcp-service",
+    "memory_type": "semantic",
+    "owner_id": "antigravity-user",
+    "created_at": "2026-08-28T04:21:49.790Z",
+    "text": "Deployed Master State & Temporal Cortex MCP Server at https://gemini-spark-state-mcp-274212548408.us-central1.run.app for Gemini Spark with Firestore Native event ledger, BigQuery Temporal Cortex time-series telemetry, and  monthly credit budget guardrails.",
+    "topics": [
+      "master-state",
+      "temporal-cortex",
+      "firestore",
+      "bigquery",
+      "self-model",
+      "genesis",
+      "predictions",
+      "curiosity",
+      "cloudrun",
+      "gemini-spark"
+    ]
+  },
+  {
+    "id": "antigravity-sdk-exhaustive-catalog",
+    "memory_type": "semantic",
+    "owner_id": "antigravity-user",
+    "created_at": "2026-08-28T01:35:12.479Z",
+    "text": "Exhaustive Antigravity SDK catalog containing all 13 built-in tools, 9-level safety policy priority matrix, and configuration classes deployed to Cloud Run at https://gemini-spark-antigravity-sdk-mcp-274212548408.us-central1.run.app.",
+    "topics": [
+      "antigravity-sdk",
+      "builtin-tools",
+      "safety-policies",
+      "mcp",
+      "gemini-spark",
+      "cloudrun"
+    ]
+  },
+  {
+    "id": "jules-cli-mcp-service",
+    "memory_type": "semantic",
+    "owner_id": "antigravity-user",
+    "created_at": "2026-08-28T02:24:54.718Z",
+    "text": "Deployed Google Jules CLI MCP Server at https://gemini-spark-jules-cli-mcp-274212548408.us-central1.run.app for Gemini Web App with OAuth 2.0 and tools: get_jules_cli_reference, run_jules_cli, create_jules_task, list_jules_tasks, inspect_jules_session.",
+    "topics": [
+      "jules",
+      "jules-cli",
+      "mcp",
+      "gemini-web",
+      "gemini-spark",
+      "oauth2",
+      "cloudrun"
+    ]
+  },
+  {
+    "id": "google-dev-knowledge-mcp-verified",
+    "memory_type": "semantic",
+    "owner_id": "antigravity-user",
+    "created_at": "2026-08-27T23:45:21.684Z",
+    "text": "Google Developer Knowledge MCP server (developerknowledge.googleapis.com/mcp) is verified and connected. Quota project is set to gemini-unleashed-core for ADC and MCP requests.",
+    "topics": [
+      "gcp",
+      "mcp",
+      "developer-knowledge",
+      "documentation"
+    ]
+  }
+]
