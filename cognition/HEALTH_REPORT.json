@@ -1,0 +1,104 @@
+{
+  "timestamp": "2026-08-28T23:22:04.319163+00:00",
+  "subsystems": {
+    "1. Belief Registry & Epistemic Confidence": {
+      "status": "HEALTHY",
+      "latency_ms": 0,
+      "details": {
+        "confidence_calibration": "Bayesian intervals [0.0, 1.0]",
+        "lifecycle_states": [
+          "KNOWN",
+          "BELIEVED",
+          "UNCERTAIN",
+          "CONTRADICTED",
+          "STALE"
+        ],
+        "verification_mechanism": "Ground-truth evidence linkage"
+      }
+    },
+    "2. Contradiction Engine (Epistemic Immune)": {
+      "status": "HEALTHY",
+      "latency_ms": 0,
+      "details": {
+        "immune_response": "Active",
+        "severity_levels": [
+          "LOW",
+          "MEDIUM",
+          "CRITICAL"
+        ],
+        "resolution_trace": "Service requires OAuth 2.0 Bearer token; unauthenticated req..."
+      }
+    },
+    "3. Curiosity Engine & UNKNOWNS Queue": {
+      "status": "HEALTHY",
+      "latency_ms": 0,
+      "details": {
+        "ranking_formula": "Curiosity = (Uncertainty * Importance * InfoGain * Novelty * Relevance) / (Cost + 0.1)",
+        "top_score": 29.731,
+        "unknowns_file_size_bytes": 3055
+      }
+    },
+    "4. Autonomous Discovery Ledger (DISCOVERIES.md)": {
+      "status": "HEALTHY",
+      "latency_ms": 0,
+      "details": {
+        "ledger_file": "cognition/DISCOVERIES.md",
+        "ledger_entries_recorded": 8,
+        "autonomous_github_sync": "Active"
+      }
+    },
+    "5. Capability Graph (DAG Acyclicity)": {
+      "status": "HEALTHY",
+      "latency_ms": 0,
+      "details": {
+        "dag_nodes_count": 12,
+        "cloud_run_prerequisite_chain": "github_repo_management -> state_persistence -> temporal_cortex_telemetry",
+        "validation_status": "Valid Acyclic DAG"
+      }
+    },
+    "6. Cognitive Kernel (OWAI Loop Pipeline)": {
+      "status": "HEALTHY",
+      "latency_ms": 0,
+      "details": {
+        "owai_stages": [
+          "Observe",
+          "Warrant",
+          "Authorize",
+          "Act",
+          "Integrate"
+        ],
+        "cycle_status": "AUTHORIZED_AND_DISPATCHED",
+        "utility_score": 10.945,
+        "actuator_assigned": "gemini_core"
+      }
+    },
+    "7. Temporal Cortex & Live Heartbeat": {
+      "status": "HEALTHY",
+      "latency_ms": 1468,
+      "details": {
+        "cloud_run_service": "gemini-spark-state-mcp",
+        "heartbeat_id": "HB-decc568a",
+        "heartbeat_endpoint": "/heartbeat (200 OK)",
+        "autonomous_action": "epistemic_discovery_completed",
+        "discovery_topic": "NVIDIA NIM Microservices",
+        "firestore_native": "Active (events/)",
+        "bigquery_temporal_cortex": "Active (temporal_cortex.heartbeats)",
+        "budget_state": "GREEN",
+        "cycle_frequency": "Every 30 minutes (0, 30 * * * *)"
+      }
+    },
+    "8. Constitutional Firewall & Budget Guardian": {
+      "status": "HEALTHY",
+      "latency_ms": 0,
+      "details": {
+        "monthly_credit_allowance": "$130.00 / month",
+        "target_burn_ceiling": "<$30.00 / month",
+        "hard_circuit_breaker": "$100.00 / month",
+        "zero_out_of_pocket_guarantee": "Strictly Enforced"
+      }
+    }
+  },
+  "overall_health": "100% HEALTHY",
+  "passed_checks": 8,
+  "total_checks": 8
+}
