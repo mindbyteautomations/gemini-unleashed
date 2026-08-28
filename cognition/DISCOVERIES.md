@@ -30,3 +30,9 @@
 - **Finding:** Verified that setting containerConcurrency=160 and CPU boost maximizes throughput during burst workloads while maintaining scale-to-zero free tier invariants.
 - **Calibrated Confidence:** `0.96`
 - **Heartbeat Pulse:** `HB-66e75efb`
+
+### `[OBS-3a4802c4]` Cloud Run Concurrency &mdash; *2026-08-28T15:03:05.389224+00:00*
+- **Entity:** Infrastructure Scaling
+- **Finding:** Verified that setting containerConcurrency=160 and CPU boost maximizes throughput during burst workloads while maintaining scale-to-zero free tier invariants.
+- **Calibrated Confidence:** `0.96`
+- **Heartbeat Pulse:** `HB-faef54e8`
