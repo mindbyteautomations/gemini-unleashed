@@ -23,6 +23,7 @@ All microservices run on Cloud Run with Scale-to-Zero ($0.00 idle compute cost) 
 | **`gemini-spark-nvidia-nim-mcp`** | `https://gemini-spark-nvidia-nim-mcp-274212548408.us-central1.run.app` | NVIDIA NIM Catalog, Model Cards, Inference Hub |
 | **`gemini-spark-developer-knowledge-mcp`** | `https://gemini-spark-developer-knowledge-mcp-274212548408.us-central1.run.app` | Google Grounded Search across 13 developer domains |
 | **`gemini-spark-antigravity-sdk-mcp`** | `https://gemini-spark-antigravity-sdk-mcp-274212548408.us-central1.run.app` | Exhaustive 13 Antigravity SDK Tool Definitions |
+| **`gemini-spark-componecat-mcp`** | `https://gemini-spark-componecat-mcp-274212548408.us-central1.run.app` | ComponeCat UI component design and generation bridge |
 
 ---
 
