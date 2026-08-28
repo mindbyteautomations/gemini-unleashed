@@ -24,6 +24,8 @@ All microservices run on Cloud Run with Scale-to-Zero ($0.00 idle compute cost) 
 | **`gemini-spark-developer-knowledge-mcp`** | `https://gemini-spark-developer-knowledge-mcp-274212548408.us-central1.run.app` | Google Grounded Search across 13 developer domains |
 | **`gemini-spark-antigravity-sdk-mcp`** | `https://gemini-spark-antigravity-sdk-mcp-274212548408.us-central1.run.app` | Exhaustive 13 Antigravity SDK Tool Definitions |
 | **`gemini-spark-componecat-mcp`** | `https://gemini-spark-componecat-mcp-274212548408.us-central1.run.app` | ComponeCat UI component design and generation bridge |
+| **`gemini-spark-copilot-mcp`** | `https://gemini-spark-copilot-mcp-274212548408.us-central1.run.app` | Full GitHub Copilot features: GPT-4o, Claude 3.5 Sonnet, o1, code review, test generator |
+| **`gemini-spark-omniroute-9router-mcp`** | `https://gemini-spark-omniroute-9router-mcp-274212548408.us-central1.run.app` | Synthesized OmniRoute + 9Router AI Gateway: 100% free-tier models & RTK token compression |
 
 ---
 

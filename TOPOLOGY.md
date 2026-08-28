@@ -1,6 +1,6 @@
 # Complete System Topology & Architecture Map
 
-An exhaustive architectural map of the **Gemini Unleashed** cognitive multi-agent organism, detailing all 12 Cloud Run MCP microservices, external memory databases, supervisory loops, security boundaries, and communication topologies.
+An exhaustive architectural map of the **Gemini Unleashed** cognitive multi-agent organism, detailing all **14 Cloud Run MCP microservices**, external memory databases, supervisory loops, security boundaries, and communication topologies.
 
 ---
 
@@ -11,6 +11,7 @@ graph TD
     subgraph Human & Identity Layer [Authority Level 0 & Identity]
         OP["Human Operator (Phillip / Schafertech89@gmail.com)"]
         GWS["Google Workspace Super-Admin (Dev@mindbyte.net)"]
+        GH_ACC["GitHub User (mindbyteautomations)"]
     end
 
     subgraph Cognitive Process Layer [Cognition & Actuation]
@@ -34,7 +35,7 @@ graph TD
         CG["Capability Graph (Prerequisite DAG)"]
     end
 
-    subgraph Cloud Run MCP Microservices [12 Managed Microservices]
+    subgraph Cloud Run MCP Microservices [14 Managed Microservices]
         M1["gemini-spark-state-mcp (State & Temporal Cortex)"]
         M2["gemini-spark-workspace-admin-mcp (Workspace & Gmail API)"]
         M3["gemini-spark-redis-memory-mcp (Vector Memory)"]
@@ -47,19 +48,28 @@ graph TD
         M10["gemini-spark-puppeteer-mcp (Browser Automation)"]
         M11["gemini-spark-auth-mcp (Identity & RFC 8414 Discovery)"]
         M12["gemini-spark-componecat-mcp (UI Components & Generation)"]
+        M13["gemini-spark-copilot-mcp (GitHub Copilot Omni-Feature Server)"]
+        M14["gemini-spark-omniroute-9router-mcp (Free-Tier AI Router & RTK Compression)"]
     end
 
-    subgraph Persistent Storage & Telemetry [External Cortex]
+    subgraph Persistent Storage & External Ecosystems [External Cortex & Upstreams]
         FS[("Firestore Native (Events, State, Secrets)")]
         BQ[("BigQuery Temporal Cortex (Heartbeats, Predictions, Observations, Decisions)")]
         RD[("Redis Cloud (Vector Embeddings, Semantic Recall)")]
-        GH[("GitHub (mindbyteautomations/gemini-unleashed)")]
+        GH_REPO[("GitHub (mindbyteautomations/gemini-unleashed)")]
+        COPILOT_API["GitHub Copilot Internal API (GPT-4o, Claude 3.5, o1)"]
+        FREE_POOLS["Free Tier Pools (Groq, Cerebras, SambaNova, Gemini Free, Mistral)"]
+        COMPONECAT_API["ComponeCat API (app.componecat.ai)"]
     end
 
     %% Connections
     OP --> GC
     OP --> GWS
+    OP --> GH_ACC
     GWS --> M2
+    GH_ACC --> M4
+    GH_ACC --> M13
+
     GC --> CK
     CK --> BG
     CK --> SG
@@ -71,7 +81,7 @@ graph TD
     CK --> CG
 
     HS --> M1
-    HS --> GH
+    HS --> GH_REPO
     ED --> M2
 
     CK --> M1
@@ -86,17 +96,21 @@ graph TD
     CK --> M10
     CK --> M11
     CK --> M12
+    CK --> M13
+    CK --> M14
 
     M1 --> FS
     M1 --> BQ
     M3 --> RD
-    M4 --> GH
-    M12 --> CC["https://app.componecat.ai/api/mcp"]
+    M4 --> GH_REPO
+    M12 --> COMPONECAT_API
+    M13 --> COPILOT_API
+    M14 --> FREE_POOLS
 ```
 
 ---
 
-## 2. Microservice Catalog (12 Cloud Run MCP Services)
+## 2. Microservice Catalog (14 Cloud Run MCP Services)
 
 | # | Service Name | Cloud Run HTTPS Endpoint | Role & Integrated Capabilities |
 | :-: | :--- | :--- | :--- |
@@ -112,6 +126,8 @@ graph TD
 | **10** | `gemini-spark-puppeteer-mcp` | `https://gemini-spark-puppeteer-mcp-274212548408.us-central1.run.app` | Headless browser navigation, web scraping, and visual snapshotting. |
 | **11** | `gemini-spark-auth-mcp` | `https://gemini-spark-auth-mcp-274212548408.us-central1.run.app` | RFC 8414 OAuth 2.0 Discovery and Master Authentication Gateway. |
 | **12** | `gemini-spark-componecat-mcp` | `https://gemini-spark-componecat-mcp-274212548408.us-central1.run.app` | Universal bridge to `app.componecat.ai` UI component generation tools. |
+| **13** | `gemini-spark-copilot-mcp` | `https://gemini-spark-copilot-mcp-274212548408.us-central1.run.app` | Full GitHub Copilot features: GPT-4o, Claude 3.5 Sonnet, o1, code review, test generator. |
+| **14** | `gemini-spark-omniroute-9router-mcp` | `https://gemini-spark-omniroute-9router-mcp-274212548408.us-central1.run.app` | Synthesized OmniRoute + 9Router AI Gateway: 100% free-tier models & RTK token compression. |
 
 ---
 
@@ -123,12 +139,3 @@ graph TD
 | **BigQuery Temporal Cortex** | `gemini-unleashed-core:temporal_cortex` | Analytical tables: `heartbeats`, `predictions`, `prediction_results`, `observations`, `decisions`. | Permanent / Columnar SQL |
 | **Redis Cloud Managed Memory** | `https://gcp-us-east4.memory.redis.io` | Vector store (`2809754f6de54933a262d320c7cd7f58`) with sub-5ms similarity search. | Fast In-Memory + Disk Sync |
 | **GitHub Repository** | [`mindbyteautomations/gemini-unleashed`](https://github.com/mindbyteautomations/gemini-unleashed) | Source code, epistemic logs (`UNKNOWNS.md`, `DISCOVERIES.md`), and version tags. | Distributed Version Control |
-
----
-
-## 4. 24/7 Automated Schedulers
-
-| Schedule | Frequency | Trigger URI | Responsibility |
-| :--- | :--- | :--- | :--- |
-| **`cognitive-heartbeat-30min`** | `*/30 * * * *` | `gemini-spark-state-mcp/heartbeat` | Executes autonomous curiosity discoveries, updates Firestore/BigQuery, commits directly to GitHub. |
-| **`daily-executive-digest-7am`** | `0 7 * * *` (7:00 AM EDT) | `gemini-spark-workspace-admin-mcp/trigger-daily-digest` | Synthesizes daily milestones, spend, and findings into an email to `schafertech89@gmail.com` from `Dev@mindbyte.net`. |
