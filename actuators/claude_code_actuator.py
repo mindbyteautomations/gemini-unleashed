@@ -3,6 +3,7 @@ Claude Code CLI Actuator Bridge
 Provides programmatic execution, Task Envelope scope gating, timeout protection,
 and telemetry logging for Anthropic Claude Code CLI (@anthropic-ai/claude-code).
 Operates strictly under Authority Level 5 governance.
+Detects real OAuth authentication status and handles interactive TTY requirements.
 """
 import os
 import sys
@@ -19,6 +20,14 @@ if PROJECT_ROOT not in sys.path:
 
 from policies.security_guardian import SecurityGuardian
 from policies.budget_guardian import BudgetGuardian
+
+class SubagentConfigurationError(Exception):
+    """Raised when a subagent tool is missing credentials, uninstalled, or misconfigured."""
+    pass
+
+class SubagentExecutionError(Exception):
+    """Raised when a subagent execution fails at runtime."""
+    pass
 
 class ClaudeCodeActuator:
     CLI_COMMAND = "claude"
@@ -55,11 +64,71 @@ class ClaudeCodeActuator:
             }
 
     @classmethod
+    def check_auth_status(cls, timeout_seconds: float = 8.0) -> Dict[str, Any]:
+        """
+        Tests whether the Claude Code CLI has a valid active OAuth session
+        without blocking indefinitely.
+        """
+        cli_check = cls.check_cli_available()
+        if not cli_check.get("installed"):
+            return {
+                "authenticated": False,
+                "status": "CLI_NOT_INSTALLED",
+                "error": "Claude Code CLI (@anthropic-ai/claude-code) is not found in PATH."
+            }
+
+        try:
+            # Run quick non-interactive probe with stdin disabled
+            res = subprocess.run(
+                [cls.CLI_COMMAND, "-p", "echo ping"],
+                capture_output=True,
+                text=True,
+                stdin=subprocess.DEVNULL,
+                shell=True,
+                timeout=timeout_seconds,
+                cwd=PROJECT_ROOT
+            )
+            combined_output = f"{res.stdout} {res.stderr}"
+            if "Failed to authenticate" in combined_output or "OAuth access token has been revoked" in combined_output or "401" in combined_output:
+                return {
+                    "authenticated": False,
+                    "status": "PENDING_USER_OAUTH",
+                    "error": "OAuth access token is missing or revoked. Please run 'claude' interactively in your host terminal to complete the Claude Max OAuth handshake.",
+                    "actionable_cmd": "claude"
+                }
+            elif res.returncode == 0:
+                return {
+                    "authenticated": True,
+                    "status": "AUTHENTICATED",
+                    "output": res.stdout.strip()
+                }
+            else:
+                return {
+                    "authenticated": False,
+                    "status": "EXECUTION_ERROR",
+                    "error": res.stderr.strip() or res.stdout.strip()
+                }
+        except subprocess.TimeoutExpired:
+            return {
+                "authenticated": False,
+                "status": "PENDING_USER_OAUTH",
+                "error": "Probe timed out waiting for interactive TTY. Run 'claude' in terminal to log in.",
+                "actionable_cmd": "claude"
+            }
+        except Exception as e:
+            return {
+                "authenticated": False,
+                "status": "PROBE_FAILED",
+                "error": str(e)
+            }
+
+    @classmethod
     def execute_refactor_session(
         cls,
         prompt: str,
         task_envelope: Dict[str, Any],
-        timeout_seconds: float = 60.0
+        timeout_seconds: float = 60.0,
+        model: str = "claude-3-7-sonnet"
     ) -> Dict[str, Any]:
         """
         Executes a bounded, non-interactive Claude Code CLI command with Task Envelope validation.
@@ -92,8 +161,8 @@ class ClaudeCodeActuator:
                 "timestamp": now_iso
             }
 
-        # 3. Subprocess Execution (with non-interactive flags or dry-run fallback)
-        cmd = [cls.CLI_COMMAND, "-p", prompt]
+        # 3. Subprocess Execution
+        cmd = [cls.CLI_COMMAND, "-p", prompt, "--model", model]
         try:
             res = subprocess.run(
                 cmd,
@@ -105,6 +174,18 @@ class ClaudeCodeActuator:
                 cwd=PROJECT_ROOT
             )
             duration_ms = (time.time() - t0) * 1000.0
+            combined_output = f"{res.stdout} {res.stderr}"
+
+            if "Failed to authenticate" in combined_output or "OAuth access token has been revoked" in combined_output:
+                return {
+                    "exec_id": exec_id,
+                    "task_id": task_envelope.get("task_id", "TASK-GENERIC"),
+                    "status": "PENDING_USER_OAUTH",
+                    "exit_code": res.returncode,
+                    "error": "OAuth token revoked. Run 'claude' in your interactive terminal to log in to Claude Max.",
+                    "duration_ms": round(duration_ms, 2),
+                    "timestamp": now_iso
+                }
             
             return {
                 "exec_id": exec_id,
@@ -141,3 +222,5 @@ if __name__ == "__main__":
     print("=== Testing Claude Code CLI Actuator ===")
     status = ClaudeCodeActuator.check_cli_available()
     print("CLI Status:", json.dumps(status, indent=2))
+    auth = ClaudeCodeActuator.check_auth_status()
+    print("Auth Status:", json.dumps(auth, indent=2))

@@ -162,19 +162,21 @@ class WorkspaceDriveSync:
 
     def dispatch_gmail_report(
         self,
-        to_email: str,
-        subject: str,
-        html_body: str
+        to_email: Optional[str] = None,
+        subject: str = "Gemini Unleashed Report",
+        html_body: str = "",
+        recipient_email: Optional[str] = None
     ) -> Dict[str, Any]:
         """
         Dispatches executive HTML digest to the recipient via DWD impersonation.
         """
+        target_email = to_email or recipient_email or self.impersonated_user
         import base64
         from email.mime.text import MIMEText
         from email.mime.multipart import MIMEMultipart
 
         message = MIMEMultipart("alternative")
-        message["to"] = to_email
+        message["to"] = target_email
         message["from"] = self.impersonated_user
         message["subject"] = subject
         message.attach(MIMEText(html_body, "html"))
