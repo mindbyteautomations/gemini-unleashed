@@ -19,6 +19,9 @@ class CapabilityGraph:
             "cloud_run_deployment": ["github_repo_management", "temporal_cortex_telemetry"],
             "nvidia_nim_inference": ["state_persistence"],
             "developer_knowledge_search": [],
+            "codex_ast_analysis": ["state_persistence"],
+            "codex_code_synthesis": ["codex_ast_analysis", "github_repo_management"],
+            "codex_refactor_evaluate": ["codex_ast_analysis"],
             "iam_and_billing_mutation": ["cloud_run_deployment"]
         }
 

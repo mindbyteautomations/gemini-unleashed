@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "WorkspaceDispatchPayload",
+  "type": "object",
+  "required": [
+    "dispatch_id",
+    "timestamp",
+    "target_recipient",
+    "sender_identity",
+    "dwd_client_id",
+    "drive_target_path",
+    "drive_file_id",
+    "email_message_id",
+    "delivery_status"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "dispatch_id": {
+      "type": "string",
+      "pattern": "^DISPATCH-[0-9]{8}-[A-Z0-9]{6}$"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "target_recipient": {
+      "type": "string",
+      "format": "email"
+    },
+    "sender_identity": {
+      "type": "string",
+      "format": "email"
+    },
+    "dwd_client_id": {
+      "type": "string",
+      "pattern": "^[0-9]{21}$"
+    },
+    "drive_target_path": {
+      "type": "string",
+      "pattern": "^Autonomous-Workspace-State/Syntheses/[0-9]{4}/[0-9]{2}/.*"
+    },
+    "drive_file_id": {
+      "type": "string"
+    },
+    "email_message_id": {
+      "type": "string"
+    },
+    "delivery_status": {
+      "type": "string",
+      "enum": ["DELIVERED_PARALLEL_SYNC", "DELIVERED_DRIVE_ONLY", "DELIVERED_GMAIL_ONLY", "DISPATCH_FAILED"]
+    }
+  }
+}

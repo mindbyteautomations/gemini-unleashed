@@ -4,7 +4,7 @@
   "project_id": "gemini-unleashed-core",
   "last_audited": "2026-08-29T02:45:00Z",
   "architecture_compliance": "Gemini Unleashed Canonical Whitepaper (Spokes 1-5)",
-  "services_count": 16,
+  "services_count": 17,
   "services": [
     {
       "service_name": "gemini-spark-state-mcp",
@@ -189,6 +189,59 @@
         {"name": "validate_service_contract", "tool": "verify_component_contract", "auth": "MCP_BEARER"}
       ],
       "dependencies": ["schemas/capability_registry.json"]
+    },
+    {
+      "service_name": "gemini-spark-codex-mcp",
+      "role": "Spoke 3: Codex Agentic Code Intelligence & AST Engine",
+      "runtime_uri": "https://gemini-spark-codex-mcp-274212548408.us-central1.run.app",
+      "risk_class": "LEVEL_2_INTERNAL",
+      "authority_level": 5,
+      "sla_latency_target_ms": 5000.0,
+      "capabilities": [
+        {
+          "name": "codex_ast_analysis",
+          "tool": "analyze_ast",
+          "risk_tier": "LEVEL_2_INTERNAL",
+          "auth": "MCP_BEARER",
+          "ast_scope": ["syntax_tree", "symbol_table", "type_hierarchy", "dependency_graph"],
+          "forbidden_actions": [
+            "modify_iam_policy",
+            "modify_billing_account",
+            "mutate_genesis_invariants",
+            "direct_redis_write",
+            "unauthenticated_git_push"
+          ]
+        },
+        {
+          "name": "codex_code_synthesis",
+          "tool": "synthesize_code",
+          "risk_tier": "LEVEL_2_INTERNAL",
+          "auth": "MCP_BEARER",
+          "ast_scope": ["module_generation", "patch_diff", "unit_test_suite"],
+          "forbidden_actions": [
+            "modify_iam_policy",
+            "modify_billing_account",
+            "mutate_genesis_invariants",
+            "direct_redis_write",
+            "unauthenticated_git_push"
+          ]
+        },
+        {
+          "name": "codex_refactor_evaluate",
+          "tool": "refactor_evaluate",
+          "risk_tier": "LEVEL_2_INTERNAL",
+          "auth": "MCP_BEARER",
+          "ast_scope": ["cyclomatic_complexity", "dead_code", "style_compliance", "regression_safety"],
+          "forbidden_actions": [
+            "modify_iam_policy",
+            "modify_billing_account",
+            "mutate_genesis_invariants",
+            "direct_redis_write",
+            "unauthenticated_git_push"
+          ]
+        }
+      ],
+      "dependencies": ["api.github.com", "temporal_cortex"]
     }
   ]
 }

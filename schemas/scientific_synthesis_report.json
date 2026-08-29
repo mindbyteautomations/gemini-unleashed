@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ScientificSynthesisReportPayload",
+  "type": "object",
+  "required": [
+    "synthesis_id",
+    "timestamp",
+    "target_date",
+    "title",
+    "metrics",
+    "sections",
+    "markdown_content",
+    "word_count",
+    "equations_count",
+    "provenance"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "synthesis_id": {
+      "type": "string",
+      "pattern": "^SYNTH-[0-9]{8}-[A-Z0-9]{6}$"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "target_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "title": {
+      "type": "string"
+    },
+    "metrics": {
+      "type": "object",
+      "required": ["brier_calibration_score", "pheromone_error_density", "vcar_score", "total_heartbeats_analyzed", "active_burn_usd"],
+      "properties": {
+        "brier_calibration_score": { "type": "number", "minimum": 0.0, "maximum": 1.0 },
+        "pheromone_error_density": { "type": "number", "minimum": 0.0 },
+        "vcar_score": { "type": "number", "minimum": 0.0 },
+        "total_heartbeats_analyzed": { "type": "integer", "minimum": 0 },
+        "active_burn_usd": { "type": "number", "minimum": 0.0 }
+      }
+    },
+    "sections": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["section_id", "title", "content_markdown"],
+        "properties": {
+          "section_id": { "type": "string" },
+          "title": { "type": "string" },
+          "content_markdown": { "type": "string" }
+        }
+      },
+      "minItems": 4
+    },
+    "markdown_content": {
+      "type": "string"
+    },
+    "word_count": {
+      "type": "integer",
+      "minimum": 2500
+    },
+    "equations_count": {
+      "type": "integer",
+      "minimum": 5
+    },
+    "provenance": {
+      "type": "object",
+      "required": ["author_agent", "gcp_project", "temporal_cortex_dataset"],
+      "properties": {
+        "author_agent": { "type": "string" },
+        "gcp_project": { "type": "string" },
+        "temporal_cortex_dataset": { "type": "string" }
+      }
+    }
+  }
+}

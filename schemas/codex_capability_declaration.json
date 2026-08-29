@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CodexCapabilityDeclaration",
+  "type": "object",
+  "required": [
+    "capability_id",
+    "agent_identity",
+    "authority_level",
+    "risk_tier",
+    "ast_scope",
+    "forbidden_actions",
+    "sla_latency_target_ms"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "capability_id": {
+      "type": "string",
+      "enum": ["codex_ast_analysis", "codex_code_synthesis", "codex_refactor_evaluate"]
+    },
+    "agent_identity": {
+      "type": "string",
+      "enum": ["codex_agent", "codex_specialist"]
+    },
+    "authority_level": {
+      "type": "integer",
+      "enum": [5]
+    },
+    "risk_tier": {
+      "type": "string",
+      "enum": ["LEVEL_2_INTERNAL"]
+    },
+    "ast_scope": {
+      "type": "array",
+      "items": { "type": "string" },
+      "uniqueItems": true
+    },
+    "forbidden_actions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "modify_iam_policy",
+          "modify_billing_account",
+          "mutate_genesis_invariants",
+          "direct_redis_write",
+          "unauthenticated_git_push"
+        ]
+      },
+      "uniqueItems": true
+    },
+    "sla_latency_target_ms": {
+      "type": "number",
+      "maximum": 5000.0
+    }
+  }
+}

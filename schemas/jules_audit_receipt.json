@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "JulesAuditReceipt",
+  "type": "object",
+  "required": [
+    "receipt_id",
+    "task_id",
+    "target_commit_sha",
+    "timestamp",
+    "vectors_tested",
+    "critical_vulnerabilities",
+    "high_vulnerabilities",
+    "audit_verdict",
+    "raw_exploit_telemetry_sink"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "receipt_id": {
+      "type": "string",
+      "pattern": "^RCPT-JULES-[0-9]{8}-[A-Z0-9]{6}$"
+    },
+    "task_id": {
+      "type": "string",
+      "pattern": "^TASK-[0-9]{8}-[A-Z0-9]{6}$"
+    },
+    "target_commit_sha": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "vectors_tested": {
+      "type": "integer",
+      "minimum": 7
+    },
+    "critical_vulnerabilities": {
+      "type": "integer",
+      "enum": [0]
+    },
+    "high_vulnerabilities": {
+      "type": "integer",
+      "enum": [0]
+    },
+    "audit_verdict": {
+      "type": "string",
+      "enum": ["AUDIT_PASSED_CLEAN", "AUDIT_REJECTED_EXPLOIT_DETECTED"]
+    },
+    "raw_exploit_telemetry_sink": {
+      "type": "string",
+      "enum": ["projects/gemini-unleashed-core/topics/failures-telemetry-sink"]
+    }
+  }
+}

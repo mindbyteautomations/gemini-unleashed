@@ -1,6 +1,6 @@
 {
-  "version": "1.1.0",
-  "total_capabilities": 12,
+  "version": "1.2.0",
+  "total_capabilities": 15,
   "capabilities": [
     {
       "capability_id": "CAP-001",
@@ -125,6 +125,36 @@
       "allowed_agents": ["human_operator"],
       "human_approval_required": true,
       "autonomous_execution_forbidden": true,
+      "rollback_supported": false
+    },
+    {
+      "capability_id": "CAP-013",
+      "name": "codex_ast_analysis",
+      "description": "AST parsing, symbol table resolution, type hierarchy, and static code graph analysis.",
+      "risk_level": 2,
+      "required_auth_level": 5,
+      "budget_sensitive": false,
+      "allowed_agents": ["codex_agent", "antigravity_orchestrator"],
+      "rollback_supported": false
+    },
+    {
+      "capability_id": "CAP-014",
+      "name": "codex_code_synthesis",
+      "description": "Deterministic code synthesis, module generation, and unit test creation.",
+      "risk_level": 2,
+      "required_auth_level": 5,
+      "budget_sensitive": true,
+      "allowed_agents": ["codex_agent", "antigravity_orchestrator"],
+      "rollback_supported": true
+    },
+    {
+      "capability_id": "CAP-015",
+      "name": "codex_refactor_evaluate",
+      "description": "Refactoring evaluation, cyclomatic complexity auditing, and regression safety scoring.",
+      "risk_level": 2,
+      "required_auth_level": 5,
+      "budget_sensitive": false,
+      "allowed_agents": ["codex_agent", "antigravity_orchestrator"],
       "rollback_supported": false
     }
   ]

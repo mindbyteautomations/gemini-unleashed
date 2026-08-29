@@ -15,12 +15,16 @@ class TaskRouter:
         risk_level = task_envelope.get("authorization", {}).get("policy_level", 3)
         objective = task_envelope.get("objective", {}).get("description", "").lower()
 
+        # AST analysis, static code intelligence, code synthesis -> Codex
+        if any(a in req_actions for a in ["analyze_ast", "synthesize_code", "refactor_module", "codex_code_synthesis", "codex_ast_analysis"]) or "ast" in objective or "synthesize" in objective or "refactor" in objective:
+            return "codex_agent", "Selected Codex Specialist for AST analysis and deterministic code synthesis."
+
         # Asynchronous GitHub PR workflow -> Jules
-        if "create_pull_request" in req_actions or "github_issue" in objective:
+        elif "create_pull_request" in req_actions or "github_issue" in objective:
             return "jules_worker", "Selected Jules Worker for asynchronous Git/PR implementation."
 
         # Interactive engineering, testing, multi-agent coordination -> Antigravity
-        elif "run_tests" in req_actions or "deploy" in req_actions or "architecture" in objective:
+        elif "run_tests" in req_actions or "deploy" in req_actions or "architecture" in objective or "adversarial_test" in req_actions:
             return "antigravity_orchestrator", "Selected Antigravity Orchestrator for interactive engineering & test execution."
 
         # High-level synthesis, hypothesis generation, research -> Gemini Core

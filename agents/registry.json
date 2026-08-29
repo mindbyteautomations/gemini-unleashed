@@ -58,6 +58,33 @@
       "responsibilities": ["Asynchronous implementation", "GitHub Issue to PR lifecycles", "Code refactoring", "Unit testing"],
       "execution_authority": true,
       "max_policy_level": 3
+    },
+    "codex_agent": {
+      "name": "Codex Specialist Engine (AST & Code Intelligence)",
+      "identity": "codex-code-intelligence-specialist",
+      "authority_level": 5,
+      "risk_tier": "LEVEL_2_INTERNAL",
+      "responsibilities": [
+        "AST analysis & parsing",
+        "Deterministic code synthesis",
+        "Refactoring evaluation",
+        "Static code quality analysis"
+      ],
+      "execution_authority": true,
+      "max_policy_level": 4,
+      "allowed_actions": [
+        "analyze_ast",
+        "synthesize_code",
+        "refactor_module",
+        "generate_unit_tests"
+      ],
+      "forbidden_actions": [
+        "modify_iam_policy",
+        "modify_billing_account",
+        "mutate_genesis_invariants",
+        "direct_redis_write",
+        "unauthenticated_git_push"
+      ]
     }
   }
 }
