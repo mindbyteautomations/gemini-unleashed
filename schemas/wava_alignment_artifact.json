@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "WhitepaperAlignmentVerificationArtifact",
+  "type": "object",
+  "required": [
+    "turn_id",
+    "timestamp",
+    "invariants_checked",
+    "memory_plane_isolation_verified",
+    "governance_risk_tier",
+    "alignment_verdict",
+    "proposed_actions"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "turn_id": { "type": "string", "pattern": "^TURN-[0-9]{8}-[A-Z0-9]{6}$" },
+    "timestamp": { "type": "string", "format": "date-time" },
+    "invariants_checked": {
+      "type": "object",
+      "required": ["I_state_synthesis_read_only", "I_gate_ingestion_normalized", "latency_slo_compliant"],
+      "properties": {
+        "I_state_synthesis_read_only": { "type": "boolean" },
+        "I_gate_ingestion_normalized": { "type": "boolean" },
+        "latency_slo_compliant": { "type": "boolean" }
+      }
+    },
+    "memory_plane_isolation_verified": { "type": "boolean" },
+    "governance_risk_tier": {
+      "type": "string",
+      "enum": ["LEVEL_0_HUMAN_GATED", "LEVEL_1_RESTRICTED", "LEVEL_2_INTERNAL", "LEVEL_3_OPEN"]
+    },
+    "alignment_verdict": {
+      "type": "string",
+      "enum": ["PASSED_FULL_COMPLIANCE", "BLOCKED_DRIFT_DETECTED"]
+    },
+    "proposed_actions": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1
+    }
+  }
+}

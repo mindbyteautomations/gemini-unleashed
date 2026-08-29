@@ -46,16 +46,16 @@
     },
     {
       "service_name": "gemini-spark-redis-memory-mcp",
-      "role": "Spoke 2: Redis IRIS Master Working Context & LangCache",
+      "role": "Spoke 2: Internal Working Context & LangCache",
       "runtime_uri": "https://gemini-spark-redis-memory-mcp-274212548408.us-central1.run.app",
       "risk_class": "LEVEL_1_RESTRICTED",
       "sla_latency_target_ms": 15.0,
       "capabilities": [
-        {"name": "iris_save_agent_memory", "tool": "iris_save_agent_memory", "auth": "MCP_BEARER"},
-        {"name": "iris_search_agent_memory", "tool": "iris_search_agent_memory", "auth": "MCP_BEARER"},
+        {"name": "save_agent_memory", "tool": "save_agent_memory", "auth": "MCP_BEARER"},
+        {"name": "search_agent_memory", "tool": "search_agent_memory", "auth": "MCP_BEARER"},
         {"name": "iris_langcache_query_or_store", "tool": "iris_langcache_query_or_store", "auth": "MCP_BEARER"}
       ],
-      "dependencies": ["gcp-us-east4.memory.redis.io (Spark Quarantined)", "firestore_native (Agent Core)"]
+      "dependencies": ["firestore.googleapis.com"]
     },
     {
       "service_name": "gemini-spark-workspace-admin-mcp",
