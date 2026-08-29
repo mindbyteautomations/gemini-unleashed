@@ -47,7 +47,7 @@
     {
       "service_name": "gemini-spark-episodic-memory-mcp",
       "role": "Spoke 2: Internal Episodic Memory & Semantic LangCache",
-      "runtime_uri": "https://gemini-spark-redis-memory-mcp-274212548408.us-central1.run.app",
+      "runtime_uri": "https://gemini-spark-episodic-memory-mcp-274212548408.us-central1.run.app",
       "risk_class": "LEVEL_1_RESTRICTED",
       "sla_latency_target_ms": 50.0,
       "capabilities": [
