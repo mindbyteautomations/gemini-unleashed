@@ -1,23 +1,74 @@
 """
-Task Router — Actuator Phenotype Selector
-Selects the optimal execution actuator (Antigravity, Jules, Gemini Core)
-based on task envelope requirements, risk profile, and cost.
+Task Router — Actuator Phenotype Selector with Autonomic Circuit Breaker
+Selects the optimal execution actuator across the Unified Developer Subagent Suite.
+Enforces 3-state Circuit Breaker governance: [HEALTHY] -> [FALLBACK_ACTIVE] -> [CIRCUIT_BREAKER_DEGRADED].
+Gracefully falls back from unauthenticated engines without unhandled exceptions or silent quality masking.
 """
-from typing import Dict, Any, Tuple
+from enum import Enum
+from typing import Dict, Any, Tuple, Optional
+
+class CircuitBreakerState(str, Enum):
+    HEALTHY = "HEALTHY"
+    FALLBACK_ACTIVE = "FALLBACK_ACTIVE"
+    CIRCUIT_BREAKER_DEGRADED = "CIRCUIT_BREAKER_DEGRADED"
 
 class TaskRouter:
+    _circuit_breaker_state: CircuitBreakerState = CircuitBreakerState.HEALTHY
+    _consecutive_fallbacks: int = 0
+    MAX_CONSECUTIVE_FALLBACKS: int = 3
+
     @classmethod
-    def select_actuator(cls, task_envelope: Dict[str, Any]) -> Tuple[str, str]:
+    def get_circuit_breaker_state(cls) -> CircuitBreakerState:
+        return cls._circuit_breaker_state
+
+    @classmethod
+    def reset_circuit_breaker(cls):
+        cls._circuit_breaker_state = CircuitBreakerState.HEALTHY
+        cls._consecutive_fallbacks = 0
+
+    @classmethod
+    def select_actuator(
+        cls,
+        task_envelope: Dict[str, Any],
+        bypass_auth_check: bool = False
+    ) -> Tuple[str, str]:
         """
-        Routes a Task Envelope to the most suitable worker.
+        Routes a Task Envelope to the most suitable subagent worker with failover protection.
         """
         req_actions = task_envelope.get("scope", {}).get("allowed_actions", [])
         risk_level = task_envelope.get("authorization", {}).get("policy_level", 3)
         objective = task_envelope.get("objective", {}).get("description", "").lower()
 
-        # 1. Claude Code CLI (Sonnet 5 ultracode) -> Multi-file terminal refactoring & code generation
+        # 1. Claude Code CLI (Sonnet 5 ultracode) candidate
         if any(a in req_actions for a in ["claude_code_exec", "claude_code_refactor", "claude_code_cli_exec", "claude_code_diff"]) or "claude" in objective or "terminal_coding" in objective or "ultracode" in objective:
-            return "claude_code_cli", "Selected Claude Code CLI (Sonnet 5 ultracode) for multi-file codebase refactoring & terminal synthesis."
+            if not bypass_auth_check:
+                try:
+                    from actuators.claude_code_actuator import ClaudeCodeActuator
+                    auth = ClaudeCodeActuator.check_auth_status()
+                    if not auth.get("authenticated", False):
+                        cls._consecutive_fallbacks += 1
+                        if cls._consecutive_fallbacks >= cls.MAX_CONSECUTIVE_FALLBACKS:
+                            cls._circuit_breaker_state = CircuitBreakerState.CIRCUIT_BREAKER_DEGRADED
+                            return (
+                                "codex_agent",
+                                f"CIRCUIT_BREAKER_DEGRADED: Claude Code unauthenticated ({cls._consecutive_fallbacks} times). "
+                                f"Tripped degraded circuit breaker; escalated to Codex Specialist. Action required: run 'claude' in terminal."
+                            )
+                        else:
+                            cls._circuit_breaker_state = CircuitBreakerState.FALLBACK_ACTIVE
+                            return (
+                                "codex_agent",
+                                f"FALLBACK_ACTIVE: Claude Code unauthenticated ({auth.get('status')}). "
+                                f"Autonomously routed to Codex Specialist (action required: run 'claude' in terminal)."
+                            )
+                    else:
+                        cls.reset_circuit_breaker()
+                        return "claude_code_cli", "Selected Claude Code CLI (Sonnet 5 ultracode) for multi-file codebase refactoring & terminal synthesis."
+                except Exception as e:
+                    cls._circuit_breaker_state = CircuitBreakerState.FALLBACK_ACTIVE
+                    return "codex_agent", f"FALLBACK_ACTIVE: Auth probe notice ({e}); routed to Codex Specialist."
+            else:
+                return "claude_code_cli", "Selected Claude Code CLI (Sonnet 5 ultracode) for multi-file codebase refactoring & terminal synthesis."
 
         # 2. Jules CLI / Worker -> Sandboxed PR implementation & adversarial auditing
         elif any(a in req_actions for a in ["jules_exec", "create_pull_request", "jules_test"]) or "jules" in objective or "github_issue" in objective:

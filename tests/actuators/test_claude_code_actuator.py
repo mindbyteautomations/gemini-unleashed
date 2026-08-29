@@ -1,6 +1,6 @@
 """
 Pytest Suite for Unified Developer Subagent Suite & Claude Code CLI
-Validates CLI availability, Task Envelope authorization, forbidden operation interception,
+Validates CLI availability, Task Envelope authorization, 3-state Circuit Breaker,
 and task routing across all 7 developer subagents.
 """
 import os
@@ -12,7 +12,7 @@ if PROJECT_ROOT not in sys.path:
     sys.path.insert(0, PROJECT_ROOT)
 
 from actuators.claude_code_actuator import ClaudeCodeActuator
-from kernel.task_router import TaskRouter
+from kernel.task_router import TaskRouter, CircuitBreakerState
 from policies.security_guardian import SecurityGuardian
 
 class TestClaudeCodeActuator:
@@ -39,8 +39,9 @@ class TestClaudeCodeActuator:
         )
         assert res["status"] == "DENIED_BY_SECURITY"
 
-    def test_task_router_selects_claude_code_cli(self):
-        """Task Router directs CLI terminal coding and full-stack refactoring to claude_code_cli."""
+    def test_task_router_autonomic_fallback_when_unauthenticated(self):
+        """Task Router safely fails over to codex_agent when Claude Code is unauthenticated."""
+        TaskRouter.reset_circuit_breaker()
         task = {
             "task_id": "TASK-CLAUDE-ROUTER-01",
             "objective": {"description": "Perform full-stack codebase refactor with claude CLI ultracode"},
@@ -48,8 +49,31 @@ class TestClaudeCodeActuator:
             "authorization": {"policy_level": 5}
         }
         actuator, reason = TaskRouter.select_actuator(task)
-        assert actuator == "claude_code_cli"
-        assert "Claude Code CLI" in reason
+        auth = ClaudeCodeActuator.check_auth_status()
+        if not auth.get("authenticated"):
+            assert actuator == "codex_agent"
+            assert TaskRouter.get_circuit_breaker_state() == CircuitBreakerState.FALLBACK_ACTIVE
+            assert "FALLBACK_ACTIVE" in reason
+        else:
+            assert actuator == "claude_code_cli"
+
+    def test_circuit_breaker_degraded_escalation(self):
+        """3 consecutive fallbacks trip the CIRCUIT_BREAKER_DEGRADED state."""
+        TaskRouter.reset_circuit_breaker()
+        task = {
+            "task_id": "TASK-CLAUDE-CB-01",
+            "objective": {"description": "Refactor codebase with claude"},
+            "scope": {"allowed_actions": ["claude_code_exec"]},
+            "authorization": {"policy_level": 5}
+        }
+        auth = ClaudeCodeActuator.check_auth_status()
+        if not auth.get("authenticated"):
+            TaskRouter.select_actuator(task)  # 1
+            TaskRouter.select_actuator(task)  # 2
+            actuator, reason = TaskRouter.select_actuator(task)  # 3
+            assert actuator == "codex_agent"
+            assert TaskRouter.get_circuit_breaker_state() == CircuitBreakerState.CIRCUIT_BREAKER_DEGRADED
+            assert "CIRCUIT_BREAKER_DEGRADED" in reason
 
     def test_task_router_selects_all_7_subagents(self):
         """Task Router properly routes across all 7 specialized subagent engines."""
@@ -65,5 +89,5 @@ class TestClaudeCodeActuator:
         ]
         for task_spec, expected_actuator in subagent_tasks:
             envelope = {"task_id": "TASK-SUBAGENT-TEST", "objective": {"description": "Test routing"}, **task_spec}
-            actuator, _ = TaskRouter.select_actuator(envelope)
+            actuator, _ = TaskRouter.select_actuator(envelope, bypass_auth_check=True)
             assert actuator == expected_actuator

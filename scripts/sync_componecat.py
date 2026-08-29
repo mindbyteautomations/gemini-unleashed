@@ -1,8 +1,9 @@
 """
-Componecat Capability Catalog Live Synchronizer
+Componecat Capability Catalog Direct HTTPS Ingress Client
 Extracts 17 Cloud Run microservice contracts from schemas/capability_registry.json,
-formats a valid ComponecatSyncPayload, and executes an authenticated HTTPS dispatch
-to the Componecat Organization API (019f8165-da76-74c3-8dce-be745244e59a).
+formats a valid ComponecatSyncPayload, and executes direct HTTPS ingestion to
+the official Componecat Collection Ingress API (https://app.componecat.ai/api/collections).
+Handles HTTP status codes (200/201 vs 401/403/404/500) with authentic network telemetry.
 """
 import os
 import sys
@@ -19,8 +20,7 @@ if PROJECT_ROOT not in sys.path:
     sys.path.insert(0, PROJECT_ROOT)
 
 COMPONECAT_ORG_ID = "019f8165-da76-74c3-8dce-be745244e59a"
-COMPONECAT_API_ENDPOINT = f"https://app.componecat.ai/api/v1/org/{COMPONECAT_ORG_ID}/collections/sync"
-COMPONECAT_MCP_ENDPOINT = "https://gemini-spark-componecat-mcp-274212548408.us-central1.run.app/sync"
+COMPONECAT_DIRECT_API = "https://app.componecat.ai/api/collections"
 
 def compile_componecat_sync_payload() -> Dict[str, Any]:
     registry_path = os.path.join(PROJECT_ROOT, "schemas", "capability_registry.json")
@@ -74,27 +74,26 @@ def compile_componecat_sync_payload() -> Dict[str, Any]:
     }
     return payload
 
-def dispatch_live_componecat_sync(
+def dispatch_direct_componecat_sync(
     payload: Dict[str, Any],
-    target_url: str = COMPONECAT_API_ENDPOINT,
     api_key: Optional[str] = None
 ) -> Dict[str, Any]:
     """
-    Performs a live HTTPS request to the Componecat Ingress API.
-    Handles HTTP statuses (200, 401, 403, 404, 500) and returns real network telemetry.
+    Dispatches direct HTTPS POST request to Componecat collections API.
+    Captures live HTTP status, headers, and duration.
     """
     json_bytes = json.dumps(payload).encode("utf-8")
     headers = {
         "Content-Type": "application/json",
-        "User-Agent": "GeminiUnleashed-ComponecatSync/1.0",
-        "X-Componecat-Org": COMPONECAT_ORG_ID
+        "User-Agent": "GeminiUnleashed-ComponecatSync/2.0",
+        "X-Componecat-Organization": COMPONECAT_ORG_ID
     }
     if api_key:
         headers["Authorization"] = f"Bearer {api_key}"
 
-    req = urllib.request.Request(target_url, data=json_bytes, headers=headers, method="POST")
+    req = urllib.request.Request(COMPONECAT_DIRECT_API, data=json_bytes, headers=headers, method="POST")
     t0 = time.time()
-    
+
     try:
         with urllib.request.urlopen(req, timeout=10.0) as resp:
             status_code = resp.status
@@ -103,19 +102,17 @@ def dispatch_live_componecat_sync(
             
             return {
                 "http_status": status_code,
-                "target_url": target_url,
-                "sync_timestamp": datetime.now(timezone.utc).isoformat(),
+                "endpoint": COMPONECAT_DIRECT_API,
                 "duration_ms": round(duration_ms, 2),
-                "response": resp_body,
-                "verified": status_code == 200
+                "response": resp_body[:1000],
+                "verified": status_code in (200, 201)
             }
     except urllib.error.HTTPError as he:
         duration_ms = (time.time() - t0) * 1000.0
         err_body = he.read().decode("utf-8", errors="ignore")
         return {
             "http_status": he.code,
-            "target_url": target_url,
-            "sync_timestamp": datetime.now(timezone.utc).isoformat(),
+            "endpoint": COMPONECAT_DIRECT_API,
             "duration_ms": round(duration_ms, 2),
             "error_reason": str(he.reason),
             "response": err_body[:500],
@@ -125,8 +122,7 @@ def dispatch_live_componecat_sync(
         duration_ms = (time.time() - t0) * 1000.0
         return {
             "http_status": 0,
-            "target_url": target_url,
-            "sync_timestamp": datetime.now(timezone.utc).isoformat(),
+            "endpoint": COMPONECAT_DIRECT_API,
             "duration_ms": round(duration_ms, 2),
             "error": str(e),
             "verified": False
@@ -134,17 +130,16 @@ def dispatch_live_componecat_sync(
 
 def execute_componecat_sync() -> Dict[str, Any]:
     payload = compile_componecat_sync_payload()
-    print(f"=== Initiating Live Componecat Sync [{COMPONECAT_ORG_ID}] ===")
-    print(f"Total Services: {payload['total_services']} | Total Capability Contracts: {len(payload['capability_contracts'])}")
+    print(f"=== Initiating Direct Componecat HTTPS Sync [{COMPONECAT_ORG_ID}] ===")
+    print(f"Target Endpoint: {COMPONECAT_DIRECT_API}")
+    print(f"Total Services: {payload['total_services']} | Contracts: {len(payload['capability_contracts'])}")
 
-    # 1. Attempt live HTTP dispatch to remote API endpoint
-    res = dispatch_live_componecat_sync(payload, COMPONECAT_API_ENDPOINT)
-    print(f"Remote Dispatch Result: HTTP {res['http_status']} ({res['duration_ms']}ms)")
+    telemetry = dispatch_direct_componecat_sync(payload)
+    print(f"Direct Ingress Result: HTTP {telemetry['http_status']} ({telemetry['duration_ms']}ms)")
 
-    # Save sync payload and transmission log locally
     sync_record = {
         "sync_payload": payload,
-        "transmission_telemetry": res,
+        "transmission_telemetry": telemetry,
         "recorded_at": datetime.now(timezone.utc).isoformat()
     }
     

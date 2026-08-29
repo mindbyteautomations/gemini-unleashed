@@ -74,3 +74,13 @@ class TestSubagentToolSuite:
         )
         assert res["subagent"] == "gemini_managed_agent"
         assert res["status"] == "COMPLETED"
+
+    def test_execute_synthesis_with_fallback(self):
+        """execute_synthesis_with_fallback executes safely via fallback when Claude Code is unauthenticated."""
+        res = SubagentToolSuite.execute_synthesis_with_fallback(
+            prompt="Generate parser",
+            task_envelope={"task_id": "TASK-FALLBACK-01"},
+            source_code_fallback="def parser(): return True\n"
+        )
+        assert res["status"] == "COMPLETED"
+        assert res["subagent"] in ["claude_code_cli", "codex_agent"]
