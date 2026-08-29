@@ -15,23 +15,35 @@ class TaskRouter:
         risk_level = task_envelope.get("authorization", {}).get("policy_level", 3)
         objective = task_envelope.get("objective", {}).get("description", "").lower()
 
-        # Claude Code CLI terminal & full-stack refactoring -> Claude Code Specialist
-        if any(a in req_actions for a in ["claude_code_exec", "claude_code_refactor", "claude_code_cli_exec", "claude_code_diff"]) or "claude" in objective or "terminal_coding" in objective:
-            return "claude_code_specialist", "Selected Claude Code Specialist for interactive CLI terminal coding & multi-file refactoring."
+        # 1. Claude Code CLI (Sonnet 5 ultracode) -> Multi-file terminal refactoring & code generation
+        if any(a in req_actions for a in ["claude_code_exec", "claude_code_refactor", "claude_code_cli_exec", "claude_code_diff"]) or "claude" in objective or "terminal_coding" in objective or "ultracode" in objective:
+            return "claude_code_cli", "Selected Claude Code CLI (Sonnet 5 ultracode) for multi-file codebase refactoring & terminal synthesis."
 
-        # AST analysis, static code intelligence, code synthesis -> Codex
-        elif any(a in req_actions for a in ["analyze_ast", "synthesize_code", "refactor_module", "codex_code_synthesis", "codex_ast_analysis"]) or "ast" in objective or "synthesize" in objective or "refactor" in objective:
+        # 2. Jules CLI / Worker -> Sandboxed PR implementation & adversarial auditing
+        elif any(a in req_actions for a in ["jules_exec", "create_pull_request", "jules_test"]) or "jules" in objective or "github_issue" in objective:
+            return "jules_cli", "Selected Jules CLI Worker for asynchronous Git/PR implementation and sandboxed security audit."
+
+        # 3. Antigravity CLI (agy) -> Process management, local testing, & multi-agent orchestration
+        elif any(a in req_actions for a in ["agy_exec", "run_tests", "deploy", "architecture", "adversarial_test"]) or "antigravity" in objective or "agy" in objective:
+            return "antigravity_cli", "Selected Antigravity CLI (agy) for process supervision, interactive testing, & multi-agent mesh orchestration."
+
+        # 4. gcloud CLI -> Infrastructure lifecycle, IAM, Cloud Run, & Pub/Sub
+        elif any(a in req_actions for a in ["gcloud_exec", "provision_infra", "cloud_run_deploy", "pubsub_manage"]) or "gcloud" in objective or "infrastructure" in objective:
+            return "gcloud_cli", "Selected gcloud CLI for Cloud Run, Pub/Sub, and infrastructure lifecycle operations."
+
+        # 5. Cloud Code Assist & GitHub Copilot -> Inline diff generation & autocompletion
+        elif any(a in req_actions for a in ["copilot_complete", "cloud_code_diff"]) or "copilot" in objective or "inline_diff" in objective:
+            return "github_copilot", "Selected GitHub Copilot / Cloud Code Assist for inline diff generation and code completion."
+
+        # 6. Gemini Managed Antigravity Agent / Gemini Cloud Assist -> Cloud-native autonomous research & assist
+        elif any(a in req_actions for a in ["gemini_agent_dispatch", "gemini_cloud_assist"]) or "gemini_agent" in objective or "cloud_assist" in objective:
+            return "gemini_managed_agent", "Selected Gemini Managed Antigravity Agent for cloud-native autonomous subagent reasoning."
+
+        # 7. Codex Specialist -> AST parsing, symbol tables, & deterministic code synthesis
+        elif any(a in req_actions for a in ["analyze_ast", "synthesize_code", "refactor_module", "codex_code_synthesis", "codex_ast_analysis"]) or "ast" in objective or "synthesize" in objective:
             return "codex_agent", "Selected Codex Specialist for AST analysis and deterministic code synthesis."
 
-        # Asynchronous GitHub PR workflow -> Jules
-        elif "create_pull_request" in req_actions or "github_issue" in objective:
-            return "jules_worker", "Selected Jules Worker for asynchronous Git/PR implementation."
-
-        # Interactive engineering, testing, multi-agent coordination -> Antigravity
-        elif "run_tests" in req_actions or "deploy" in req_actions or "architecture" in objective or "adversarial_test" in req_actions:
-            return "antigravity_orchestrator", "Selected Antigravity Orchestrator for interactive engineering & test execution."
-
-        # High-level synthesis, hypothesis generation, research -> Gemini Core
+        # 8. High-level synthesis, hypothesis generation, research -> Gemini Core
         else:
             return "gemini_core", "Selected Gemini Core for reasoning, planning, and evaluation."
 

@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ComponecatSyncPayload",
+  "type": "object",
+  "required": [
+    "org_id",
+    "sync_timestamp",
+    "total_services",
+    "capability_contracts",
+    "risk_classification_summary"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "org_id": {
+      "type": "string",
+      "enum": ["019f8165-da76-74c3-8dce-be745244e59a"]
+    },
+    "sync_timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "total_services": {
+      "type": "integer",
+      "minimum": 16
+    },
+    "capability_contracts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "service_name",
+          "capability_id",
+          "authority_level",
+          "risk_tier",
+          "endpoint_uri",
+          "sla_target_ms"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "service_name": { "type": "string" },
+          "capability_id": { "type": "string" },
+          "authority_level": { "type": "integer", "enum": [0, 1, 2, 3, 4, 5, 6, 7] },
+          "risk_tier": { "type": "string", "enum": ["LEVEL_1_RESTRICTED", "LEVEL_2_INTERNAL", "LEVEL_3_EXTERNAL", "LEVEL_0_HUMAN_GATED", "LEVEL_3_OPEN"] },
+          "endpoint_uri": { "type": "string", "format": "uri" },
+          "sla_target_ms": { "type": "number" }
+        }
+      }
+    },
+    "risk_classification_summary": {
+      "type": "object",
+      "required": ["level_1_count", "level_2_count", "level_3_count"],
+      "additionalProperties": false,
+      "properties": {
+        "level_1_count": { "type": "integer" },
+        "level_2_count": { "type": "integer" },
+        "level_3_count": { "type": "integer" }
+      }
+    }
+  }
+}

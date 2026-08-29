@@ -1,0 +1,228 @@
+{
+  "org_id": "019f8165-da76-74c3-8dce-be745244e59a",
+  "sync_timestamp": "2026-08-29T21:37:03.901338+00:00",
+  "total_services": 17,
+  "capability_contracts": [
+    {
+      "service_name": "gemini-spark-state-mcp",
+      "capability_id": "autonomic_heartbeat",
+      "authority_level": 5,
+      "risk_tier": "LEVEL_1_RESTRICTED",
+      "endpoint_uri": "https://gemini-spark-state-mcp-274212548408.us-central1.run.app",
+      "sla_target_ms": 50.0
+    },
+    {
+      "service_name": "gemini-spark-state-mcp",
+      "capability_id": "cycle_management",
+      "authority_level": 5,
+      "risk_tier": "LEVEL_1_RESTRICTED",
+      "endpoint_uri": "https://gemini-spark-state-mcp-274212548408.us-central1.run.app",
+      "sla_target_ms": 50.0
+    },
+    {
+      "service_name": "gemini-spark-state-mcp",
+      "capability_id": "temporal_observation_sink",
+      "authority_level": 5,
+      "risk_tier": "LEVEL_1_RESTRICTED",
+      "endpoint_uri": "https://gemini-spark-state-mcp-274212548408.us-central1.run.app",
+      "sla_target_ms": 50.0
+    },
+    {
+      "service_name": "gemini-spark-state-mcp",
+      "capability_id": "prediction_calibration",
+      "authority_level": 5,
+      "risk_tier": "LEVEL_1_RESTRICTED",
+      "endpoint_uri": "https://gemini-spark-state-mcp-274212548408.us-central1.run.app",
+      "sla_target_ms": 50.0
+    },
+    {
+      "service_name": "gemini-spark-research-harvester",
+      "capability_id": "batch_harvest",
+      "authority_level": 5,
+      "risk_tier": "LEVEL_2_INTERNAL",
+      "endpoint_uri": "https://gemini-spark-research-harvester-274212548408.us-central1.run.app",
+      "sla_target_ms": 5000.0
+    },
+    {
+      "service_name": "gemini-spark-research-harvester",
+      "capability_id": "epistemic_neural_vector_gate",
+      "authority_level": 5,
+      "risk_tier": "LEVEL_2_INTERNAL",
+      "endpoint_uri": "https://gemini-spark-research-harvester-274212548408.us-central1.run.app",
+      "sla_target_ms": 5000.0
+    },
+    {
+      "service_name": "gemini-spark-omniroute-9router-mcp",
+      "capability_id": "omniroute_execute_combo",
+      "authority_level": 5,
+      "risk_tier": "LEVEL_2_INTERNAL",
+      "endpoint_uri": "https://gemini-spark-omniroute-9router-mcp-274212548408.us-central1.run.app",
+      "sla_target_ms": 15000.0
+    },
+    {
+      "service_name": "gemini-spark-omniroute-9router-mcp",
+      "capability_id": "model_catalog_discovery",
+      "authority_level": 5,
+      "risk_tier": "LEVEL_2_INTERNAL",
+      "endpoint_uri": "https://gemini-spark-omniroute-9router-mcp-274212548408.us-central1.run.app",
+      "sla_target_ms": 15000.0
+    },
+    {
+      "service_name": "gemini-spark-episodic-memory-mcp",
+      "capability_id": "save_agent_memory",
+      "authority_level": 5,
+      "risk_tier": "LEVEL_1_RESTRICTED",
+      "endpoint_uri": "https://gemini-spark-episodic-memory-mcp-274212548408.us-central1.run.app",
+      "sla_target_ms": 50.0
+    },
+    {
+      "service_name": "gemini-spark-episodic-memory-mcp",
+      "capability_id": "search_agent_memory",
+      "authority_level": 5,
+      "risk_tier": "LEVEL_1_RESTRICTED",
+      "endpoint_uri": "https://gemini-spark-episodic-memory-mcp-274212548408.us-central1.run.app",
+      "sla_target_ms": 50.0
+    },
+    {
+      "service_name": "gemini-spark-episodic-memory-mcp",
+      "capability_id": "langcache_query_or_store",
+      "authority_level": 5,
+      "risk_tier": "LEVEL_1_RESTRICTED",
+      "endpoint_uri": "https://gemini-spark-episodic-memory-mcp-274212548408.us-central1.run.app",
+      "sla_target_ms": 50.0
+    },
+    {
+      "service_name": "gemini-spark-workspace-admin-mcp",
+      "capability_id": "directory_user_manage",
+      "authority_level": 5,
+      "risk_tier": "LEVEL_0_HUMAN_GATED",
+      "endpoint_uri": "https://gemini-spark-workspace-admin-mcp-274212548408.us-central1.run.app",
+      "sla_target_ms": 1200.0
+    },
+    {
+      "service_name": "gemini-spark-github-mcp",
+      "capability_id": "git_commit_staged",
+      "authority_level": 5,
+      "risk_tier": "LEVEL_1_RESTRICTED",
+      "endpoint_uri": "https://gemini-spark-github-mcp-274212548408.us-central1.run.app",
+      "sla_target_ms": 2500.0
+    },
+    {
+      "service_name": "gemini-spark-stitch-mcp",
+      "capability_id": "generate_screen",
+      "authority_level": 5,
+      "risk_tier": "LEVEL_3_OPEN",
+      "endpoint_uri": "https://gemini-spark-stitch-mcp-274212548408.us-central1.run.app",
+      "sla_target_ms": 3000.0
+    },
+    {
+      "service_name": "gemini-spark-nvidia-nim-mcp",
+      "capability_id": "nim_inference",
+      "authority_level": 5,
+      "risk_tier": "LEVEL_2_INTERNAL",
+      "endpoint_uri": "https://gemini-spark-nvidia-nim-mcp-274212548408.us-central1.run.app",
+      "sla_target_ms": 8000.0
+    },
+    {
+      "service_name": "gemini-spark-context7-mcp",
+      "capability_id": "context_fuse",
+      "authority_level": 5,
+      "risk_tier": "LEVEL_2_INTERNAL",
+      "endpoint_uri": "https://gemini-spark-context7-mcp-274212548408.us-central1.run.app",
+      "sla_target_ms": 500.0
+    },
+    {
+      "service_name": "gemini-spark-developer-knowledge-mcp",
+      "capability_id": "search_docs",
+      "authority_level": 5,
+      "risk_tier": "LEVEL_3_OPEN",
+      "endpoint_uri": "https://gemini-spark-developer-knowledge-mcp-274212548408.us-central1.run.app",
+      "sla_target_ms": 1500.0
+    },
+    {
+      "service_name": "gemini-spark-antigravity-mcp",
+      "capability_id": "agent_lease",
+      "authority_level": 5,
+      "risk_tier": "LEVEL_1_RESTRICTED",
+      "endpoint_uri": "https://gemini-spark-antigravity-mcp-274212548408.us-central1.run.app",
+      "sla_target_ms": 5000.0
+    },
+    {
+      "service_name": "gemini-spark-antigravity-sdk-mcp",
+      "capability_id": "sdk_dispatch",
+      "authority_level": 5,
+      "risk_tier": "LEVEL_2_INTERNAL",
+      "endpoint_uri": "https://gemini-spark-antigravity-sdk-mcp-274212548408.us-central1.run.app",
+      "sla_target_ms": 1000.0
+    },
+    {
+      "service_name": "gemini-spark-jules-api-mcp",
+      "capability_id": "jules_session",
+      "authority_level": 5,
+      "risk_tier": "LEVEL_1_RESTRICTED",
+      "endpoint_uri": "https://gemini-spark-jules-api-mcp-274212548408.us-central1.run.app",
+      "sla_target_ms": 4000.0
+    },
+    {
+      "service_name": "gemini-spark-jules-cli-mcp",
+      "capability_id": "jules_exec",
+      "authority_level": 5,
+      "risk_tier": "LEVEL_1_RESTRICTED",
+      "endpoint_uri": "https://gemini-spark-jules-cli-mcp-274212548408.us-central1.run.app",
+      "sla_target_ms": 3000.0
+    },
+    {
+      "service_name": "gemini-spark-cli-mcp",
+      "capability_id": "gcloud_exec",
+      "authority_level": 5,
+      "risk_tier": "LEVEL_0_HUMAN_GATED",
+      "endpoint_uri": "https://gemini-spark-cli-mcp-274212548408.us-central1.run.app",
+      "sla_target_ms": 6000.0
+    },
+    {
+      "service_name": "gemini-spark-componecat-mcp",
+      "capability_id": "get_capability_matrix",
+      "authority_level": 5,
+      "risk_tier": "LEVEL_1_RESTRICTED",
+      "endpoint_uri": "https://gemini-spark-componecat-mcp-274212548408.us-central1.run.app",
+      "sla_target_ms": 100.0
+    },
+    {
+      "service_name": "gemini-spark-componecat-mcp",
+      "capability_id": "validate_service_contract",
+      "authority_level": 5,
+      "risk_tier": "LEVEL_1_RESTRICTED",
+      "endpoint_uri": "https://gemini-spark-componecat-mcp-274212548408.us-central1.run.app",
+      "sla_target_ms": 100.0
+    },
+    {
+      "service_name": "gemini-spark-codex-mcp",
+      "capability_id": "codex_ast_analysis",
+      "authority_level": 5,
+      "risk_tier": "LEVEL_2_INTERNAL",
+      "endpoint_uri": "https://gemini-spark-codex-mcp-274212548408.us-central1.run.app",
+      "sla_target_ms": 5000.0
+    },
+    {
+      "service_name": "gemini-spark-codex-mcp",
+      "capability_id": "codex_code_synthesis",
+      "authority_level": 5,
+      "risk_tier": "LEVEL_2_INTERNAL",
+      "endpoint_uri": "https://gemini-spark-codex-mcp-274212548408.us-central1.run.app",
+      "sla_target_ms": 5000.0
+    },
+    {
+      "service_name": "gemini-spark-codex-mcp",
+      "capability_id": "codex_refactor_evaluate",
+      "authority_level": 5,
+      "risk_tier": "LEVEL_2_INTERNAL",
+      "endpoint_uri": "https://gemini-spark-codex-mcp-274212548408.us-central1.run.app",
+      "sla_target_ms": 5000.0
+    }
+  ],
+  "risk_classification_summary": {
+    "level_1_count": 9,
+    "level_2_count": 6,
+    "level_3_count": 2
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "UnifiedSubagentRegistry",
+  "type": "object",
+  "required": ["registered_subagents", "default_coding_engine", "task_envelope_enforced"],
+  "additionalProperties": false,
+  "properties": {
+    "default_coding_engine": {
+      "type": "string",
+      "enum": ["claude-sonnet-5-ultracode"]
+    },
+    "task_envelope_enforced": {
+      "type": "boolean",
+      "enum": [true]
+    },
+    "registered_subagents": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["subagent_id", "cli_binary", "auth_status", "authority_ceiling"],
+        "additionalProperties": false,
+        "properties": {
+          "subagent_id": {
+            "type": "string",
+            "enum": [
+              "claude_code_cli",
+              "jules_cli",
+              "antigravity_cli",
+              "gcloud_cli",
+              "cloud_code_assist",
+              "github_copilot",
+              "gemini_managed_agent"
+            ]
+          },
+          "cli_binary": { "type": "string" },
+          "auth_status": { "type": "string", "enum": ["AUTHENTICATED", "PENDING_USER_OAUTH"] },
+          "authority_ceiling": { "type": "integer", "enum": [5] }
+        }
+      }
+    }
+  }
+}

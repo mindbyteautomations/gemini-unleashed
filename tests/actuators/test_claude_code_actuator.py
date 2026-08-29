@@ -1,7 +1,7 @@
 """
-Pytest Suite for Claude Code CLI Actuator Integration
+Pytest Suite for Unified Developer Subagent Suite & Claude Code CLI
 Validates CLI availability, Task Envelope authorization, forbidden operation interception,
-and task routing to claude_code_specialist.
+and task routing across all 7 developer subagents.
 """
 import os
 import sys
@@ -39,14 +39,31 @@ class TestClaudeCodeActuator:
         )
         assert res["status"] == "DENIED_BY_SECURITY"
 
-    def test_task_router_selects_claude_code_specialist(self):
-        """Task Router directs CLI terminal coding and full-stack refactoring to claude_code_specialist."""
+    def test_task_router_selects_claude_code_cli(self):
+        """Task Router directs CLI terminal coding and full-stack refactoring to claude_code_cli."""
         task = {
             "task_id": "TASK-CLAUDE-ROUTER-01",
-            "objective": {"description": "Perform full-stack codebase refactor with claude CLI"},
+            "objective": {"description": "Perform full-stack codebase refactor with claude CLI ultracode"},
             "scope": {"allowed_actions": ["claude_code_exec", "claude_code_refactor"]},
             "authorization": {"policy_level": 5}
         }
         actuator, reason = TaskRouter.select_actuator(task)
-        assert actuator == "claude_code_specialist"
-        assert "Claude Code Specialist" in reason
+        assert actuator == "claude_code_cli"
+        assert "Claude Code CLI" in reason
+
+    def test_task_router_selects_all_7_subagents(self):
+        """Task Router properly routes across all 7 specialized subagent engines."""
+        subagent_tasks = [
+            ({"scope": {"allowed_actions": ["claude_code_exec"]}}, "claude_code_cli"),
+            ({"scope": {"allowed_actions": ["jules_exec"]}}, "jules_cli"),
+            ({"scope": {"allowed_actions": ["agy_exec"]}}, "antigravity_cli"),
+            ({"scope": {"allowed_actions": ["gcloud_exec"]}}, "gcloud_cli"),
+            ({"scope": {"allowed_actions": ["copilot_complete"]}}, "github_copilot"),
+            ({"scope": {"allowed_actions": ["gemini_agent_dispatch"]}}, "gemini_managed_agent"),
+            ({"scope": {"allowed_actions": ["analyze_ast"]}}, "codex_agent"),
+            ({"scope": {"allowed_actions": ["reason_and_plan"]}}, "gemini_core"),
+        ]
+        for task_spec, expected_actuator in subagent_tasks:
+            envelope = {"task_id": "TASK-SUBAGENT-TEST", "objective": {"description": "Test routing"}, **task_spec}
+            actuator, _ = TaskRouter.select_actuator(envelope)
+            assert actuator == expected_actuator
