@@ -212,3 +212,17 @@
 - **Architectural Relevance:** Provides structured evidence base for Learning & Transfer memory indexing and autonomous task routing.
 - **Confidence Tier:** `[WORKING]`
 - **Heartbeat Pulse:** `HB-5e31dca5`
+
+### `[ATOM-9F4AE72D]` Learning a Continuous Sepsis Severity Score Without Hour-by-Hour Supervision: A Two-Site Retrospective Study &mdash; *2026-08-29T02:11:24.275088+00:00*
+- **Stream:** `ARXIV_CS_LG` (Machine Learning)
+- **Finding:** Analyzed primary source 'Learning a Continuous Sepsis Severity Score Without Hour-by-Hour Supervision: A Two-Site Retrospective Study': Currently used sepsis severity indices rely on fixed variables and weights established decades ago, which are coarsely discretized and calibrated to a cohort that no longer reflects contemporary critical care. No alternative learned directly from pat...
+- **Architectural Relevance:** Informs Machine Learning knowledge structures and runtime agent execution pipelines.
+- **Confidence Tier:** `[WORKING]`
+- **Heartbeat Pulse:** `HB-69d9a851`
+
+### `[ATOM-31F4CF84]` Advancements in Open-Source Models &mdash; *2026-08-29T02:11:24.275088+00:00*
+- **Stream:** `HUGGINGFACE_DAILY` (Open-Source Models)
+- **Finding:** Analyzed primary source 'Advancements in Open-Source Models': Investigation into state-space models and dynamic attention optimization for Open-Source Models....
+- **Architectural Relevance:** Informs Open-Source Models knowledge structures and runtime agent execution pipelines.
+- **Confidence Tier:** `[WORKING]`
+- **Heartbeat Pulse:** `HB-69d9a851`
