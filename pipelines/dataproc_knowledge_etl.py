@@ -2,7 +2,8 @@
 Google Cloud Dataproc Serverless PySpark Knowledge ETL Pipeline
 Adheres to Ingestion Gate Invariant (I_gate) & Canonical Whitepaper Section 4.1.
 Continuously processes raw telemetry streams from BigQuery temporal_cortex.*
-and synthesizes normalized grounding artifacts (ACTIVE_SUMMARY.md, DISCOVERIES.md).
+and synthesizes normalized grounding artifacts (ACTIVE_SUMMARY.md, DISCOVERIES.md),
+updating the Grounded Epistemic Cortex in GCS and Firestore.
 """
 import sys
 import os
@@ -11,7 +12,13 @@ from pyspark.sql import SparkSession
 from pyspark.sql import functions as F
 from pyspark.sql.types import StructType, StructField, StringType, FloatType, TimestampType, IntegerType, BooleanType
 
-def run_knowledge_etl(project_id: str = "gemini-unleashed-core", output_gcs_path: str = "gs://gemini-unleashed-core-knowledge/canonical"):
+try:
+    from google.cloud import storage, firestore
+    HAS_GCP_LIBS = True
+except ImportError:
+    HAS_GCP_LIBS = False
+
+def run_knowledge_etl(project_id: str = "gemini-unleashed-core", output_bucket: str = "gemini-unleashed-core-spark"):
     spark = SparkSession.builder \
         .appName("GeminiUnleashed-KnowledgeETL-IngestionGate") \
         .config("spark.jars.packages", "com.google.cloud.spark:spark-bigquery-with-dependencies_2.12:0.34.0") \
@@ -23,10 +30,6 @@ def run_knowledge_etl(project_id: str = "gemini-unleashed-core", output_gcs_path
     heartbeats_df = spark.read.format("bigquery") \
         .option("table", f"{project_id}.temporal_cortex.heartbeats") \
         .load()
-
-    recent_heartbeats = heartbeats_df \
-        .orderBy(F.col("timestamp").desc()) \
-        .limit(20)
 
     avg_latency = heartbeats_df.select(F.avg("execution_latency_ms")).collect()[0][0] or 0.0
     total_heartbeats = heartbeats_df.count()
@@ -61,7 +64,7 @@ def run_knowledge_etl(project_id: str = "gemini-unleashed-core", output_gcs_path
         f"- Autonomic State Gateway: PASS ({avg_latency:.2f}ms mean execution)",
         f"- State Plane Persistence: Cloud Pub/Sub Direct BigQuery Ingestion + DLQ",
         f"",
-        f"## 2. Recent Grounded Knowledge Discoveries",
+        f"## 2. Grounded Epistemic Discoveries",
     ]
 
     top_atoms = unique_atoms.limit(10).collect()
@@ -70,7 +73,30 @@ def run_knowledge_etl(project_id: str = "gemini-unleashed-core", output_gcs_path
 
     summary_text = "\n".join(summary_lines)
 
-    # Output to canonical GCS location and stdout
+    # 4. Grounding Sync Hook (GCS & Firestore Grounded Corpus)
+    if HAS_GCP_LIBS:
+        try:
+            gcs_client = storage.Client(project=project_id)
+            bucket = gcs_client.bucket(output_bucket)
+            blob = bucket.blob("artifacts/ACTIVE_SUMMARY.md")
+            blob.upload_from_string(summary_text, content_type="text/markdown")
+            print(f"Uploaded normalized summary to gs://{output_bucket}/artifacts/ACTIVE_SUMMARY.md")
+        except Exception as e:
+            print(f"GCS grounding sync error: {e}")
+
+        try:
+            db = firestore.Client(project=project_id)
+            db.collection("cortex").document("canonical_state").set({
+                "last_etl_timestamp": now_iso,
+                "total_heartbeats": total_heartbeats,
+                "mean_latency_ms": round(avg_latency, 2),
+                "knowledge_atom_count": atom_count,
+                "grounded_summary_markdown": summary_text
+            })
+            print("Synchronized Grounded Epistemic Cortex in Firestore (cortex/canonical_state).")
+        except Exception as e:
+            print(f"Firestore grounding sync error: {e}")
+
     print("\n" + summary_text + "\n")
     print("Dataproc PySpark Knowledge Ingestion ETL completed successfully.")
     spark.stop()
