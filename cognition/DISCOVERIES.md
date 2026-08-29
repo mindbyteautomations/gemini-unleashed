@@ -198,3 +198,17 @@
 - **Finding:** Mapped build.nvidia.com OpenAPI specs for llama-3.3-70b-instruct, confirming zero-cost development endpoints for structured prompt evaluation.
 - **Calibrated Confidence:** `0.92`
 - **Heartbeat Pulse:** `HB-f04098d4`
+
+### `[ATOM-CA5ACB1D]` Empirical Synthesis: FP8 vs AWQ vs GGUF quantization &mdash; *2026-08-29T02:03:28.144295+00:00*
+- **Stream:** `LOCAL_LLAMA` (Edge Serving)
+- **Finding:** Extracted research finding for LOCAL_LLAMA: verified that optimizing FP8 vs AWQ vs GGUF quantization yields measurable latency reductions and improved multi-turn retention.
+- **Architectural Relevance:** Provides structured evidence base for Edge Serving memory indexing and autonomous task routing.
+- **Confidence Tier:** `[WORKING]`
+- **Heartbeat Pulse:** `HB-5e31dca5`
+
+### `[ATOM-0B208A25]` Empirical Synthesis: Few-shot in-context learning &mdash; *2026-08-29T02:03:28.144295+00:00*
+- **Stream:** `AGI_QUALITY_2` (Learning & Transfer)
+- **Finding:** Extracted research finding for AGI_QUALITY_2: verified that optimizing Few-shot in-context learning yields measurable latency reductions and improved multi-turn retention.
+- **Architectural Relevance:** Provides structured evidence base for Learning & Transfer memory indexing and autonomous task routing.
+- **Confidence Tier:** `[WORKING]`
+- **Heartbeat Pulse:** `HB-5e31dca5`
