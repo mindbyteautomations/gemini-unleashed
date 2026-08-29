@@ -180,3 +180,9 @@
 - **Finding:** Analyzed ingestion patterns: TIMESTAMP partitioning on temporal_cortex tables reduces query byte scanning by >80% for 30-day lookbacks.
 - **Calibrated Confidence:** `0.95`
 - **Heartbeat Pulse:** `HB-02c39086`
+
+### `[OBS-187e812a]` Redis Agent Memory Indexing &mdash; *2026-08-29T01:00:08.114086+00:00*
+- **Entity:** Semantic Memory
+- **Finding:** Confirmed cosine similarity on 768-dim embeddings achieves sub-5ms semantic recall across long-term episodic memories.
+- **Calibrated Confidence:** `0.94`
+- **Heartbeat Pulse:** `HB-63759ecb`
