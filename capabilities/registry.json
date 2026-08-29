@@ -1,6 +1,6 @@
 {
-  "version": "1.2.0",
-  "total_capabilities": 15,
+  "version": "1.3.0",
+  "total_capabilities": 16,
   "capabilities": [
     {
       "capability_id": "CAP-001",
@@ -156,6 +156,16 @@
       "budget_sensitive": false,
       "allowed_agents": ["codex_agent", "antigravity_orchestrator"],
       "rollback_supported": false
+    },
+    {
+      "capability_id": "CAP-016",
+      "name": "claude_code_cli_exec",
+      "description": "Execute autonomous multi-file terminal refactoring and patch generation via Claude Code CLI.",
+      "risk_level": 2,
+      "required_auth_level": 5,
+      "budget_sensitive": true,
+      "allowed_agents": ["claude_code_specialist", "antigravity_orchestrator"],
+      "rollback_supported": true
     }
   ]
 }

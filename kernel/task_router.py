@@ -15,8 +15,12 @@ class TaskRouter:
         risk_level = task_envelope.get("authorization", {}).get("policy_level", 3)
         objective = task_envelope.get("objective", {}).get("description", "").lower()
 
+        # Claude Code CLI terminal & full-stack refactoring -> Claude Code Specialist
+        if any(a in req_actions for a in ["claude_code_exec", "claude_code_refactor", "claude_code_cli_exec", "claude_code_diff"]) or "claude" in objective or "terminal_coding" in objective:
+            return "claude_code_specialist", "Selected Claude Code Specialist for interactive CLI terminal coding & multi-file refactoring."
+
         # AST analysis, static code intelligence, code synthesis -> Codex
-        if any(a in req_actions for a in ["analyze_ast", "synthesize_code", "refactor_module", "codex_code_synthesis", "codex_ast_analysis"]) or "ast" in objective or "synthesize" in objective or "refactor" in objective:
+        elif any(a in req_actions for a in ["analyze_ast", "synthesize_code", "refactor_module", "codex_code_synthesis", "codex_ast_analysis"]) or "ast" in objective or "synthesize" in objective or "refactor" in objective:
             return "codex_agent", "Selected Codex Specialist for AST analysis and deterministic code synthesis."
 
         # Asynchronous GitHub PR workflow -> Jules

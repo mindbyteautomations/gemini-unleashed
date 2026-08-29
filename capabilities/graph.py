@@ -22,6 +22,7 @@ class CapabilityGraph:
             "codex_ast_analysis": ["state_persistence"],
             "codex_code_synthesis": ["codex_ast_analysis", "github_repo_management"],
             "codex_refactor_evaluate": ["codex_ast_analysis"],
+            "claude_code_cli_exec": ["codex_code_synthesis", "github_repo_management"],
             "iam_and_billing_mutation": ["cloud_run_deployment"]
         }
 

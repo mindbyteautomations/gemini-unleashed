@@ -4,8 +4,10 @@
 
 agent(codex_agent).
 agent(jules_worker).
+agent(claude_code_specialist).
 authority_level(codex_agent, 5).
 authority_level(jules_worker, 5).
+authority_level(claude_code_specialist, 5).
 
 forbidden_op(modify_iam).
 forbidden_op(modify_billing).

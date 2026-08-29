@@ -85,6 +85,34 @@
         "direct_redis_write",
         "unauthenticated_git_push"
       ]
+    },
+    "claude_code_specialist": {
+      "name": "Claude Code CLI Specialist (Agentic Terminal & Multi-File Refactoring)",
+      "identity": "claude-code-cli-specialist",
+      "authority_level": 5,
+      "risk_tier": "LEVEL_2_INTERNAL",
+      "cli_binary": "claude",
+      "responsibilities": [
+        "Interactive CLI terminal coding sessions",
+        "Autonomous full-stack codebase refactoring",
+        "Multi-file diff synthesis & test generation",
+        "Local sandbox patch verification"
+      ],
+      "execution_authority": true,
+      "max_policy_level": 4,
+      "allowed_actions": [
+        "claude_code_exec",
+        "claude_code_refactor",
+        "claude_code_test_gen",
+        "claude_code_diff"
+      ],
+      "forbidden_actions": [
+        "modify_iam_policy",
+        "modify_billing_account",
+        "mutate_genesis_invariants",
+        "direct_redis_write",
+        "unauthenticated_git_push"
+      ]
     }
   }
 }
