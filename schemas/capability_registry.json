@@ -45,15 +45,15 @@
       "dependencies": ["openrouter.ai", "nvidia.build.com"]
     },
     {
-      "service_name": "gemini-spark-redis-memory-mcp",
-      "role": "Spoke 2: Internal Working Context & LangCache",
+      "service_name": "gemini-spark-episodic-memory-mcp",
+      "role": "Spoke 2: Internal Episodic Memory & Semantic LangCache",
       "runtime_uri": "https://gemini-spark-redis-memory-mcp-274212548408.us-central1.run.app",
       "risk_class": "LEVEL_1_RESTRICTED",
-      "sla_latency_target_ms": 15.0,
+      "sla_latency_target_ms": 50.0,
       "capabilities": [
         {"name": "save_agent_memory", "tool": "save_agent_memory", "auth": "MCP_BEARER"},
         {"name": "search_agent_memory", "tool": "search_agent_memory", "auth": "MCP_BEARER"},
-        {"name": "iris_langcache_query_or_store", "tool": "iris_langcache_query_or_store", "auth": "MCP_BEARER"}
+        {"name": "langcache_query_or_store", "tool": "langcache_query_or_store", "auth": "MCP_BEARER"}
       ],
       "dependencies": ["firestore.googleapis.com"]
     },
