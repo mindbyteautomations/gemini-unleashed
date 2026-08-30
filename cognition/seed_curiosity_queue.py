@@ -139,7 +139,7 @@ async def seed_curiosity_queue():
     for rank, unk in enumerate(ranked_items, 1):
         md_lines.append(f"### {rank}. `[{unk['unknown_id']}]` {unk['domain']} (Score: **{unk['curiosity_score']}**)\n")
         md_lines.append(f"**Question:** {unk['question']}\\\n")
-        md_lines.append(f"**Parameters:** Uncertainty: `{unk['uncertainty']}` &bull; Importance: `{unk['importance']}` &bull; Estimated Cost: `\${unk['estimated_cost_usd']:.2f}` &bull; Status: `{unk['status']}`\n\n")
+        md_lines.append(f"**Parameters:** Uncertainty: `{unk['uncertainty']}` &bull; Importance: `{unk['importance']}` &bull; Estimated Cost: `\\${unk['estimated_cost_usd']:.2f}` &bull; Status: `{unk['status']}`\n\n")
 
     with open("cognition/UNKNOWNS.md", "w", encoding="utf-8") as f:
         f.writelines(md_lines)

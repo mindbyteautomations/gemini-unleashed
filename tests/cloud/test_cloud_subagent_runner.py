@@ -55,3 +55,10 @@ class TestCloudSubagentRunner:
         assert payload["container_image"] == "gcr.io/gemini-unleashed-core/subagent-runner:v1.0.1"
         assert len(payload["secrets_mounted"]) >= 2
         assert dispatch_out["status"] == "DISPATCH_CONFIRMED"
+
+    def test_workspace_setup_fallback(self):
+        """Verifies workspace setup correctly falls back to project root when no GITHUB_TOKEN is provided."""
+        ws_path = CloudSubagentRunner.setup_workspace(github_token=None)
+        assert os.path.exists(ws_path)
+        assert ws_path == PROJECT_ROOT
+

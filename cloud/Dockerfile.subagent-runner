@@ -40,8 +40,9 @@ COPY . /app
 
 # Create non-root runner user and set permissions
 RUN useradd -m -u 1000 appuser && \
-    mkdir -p /home/appuser/.config /home/appuser/.claude && \
-    chown -R appuser:appuser /app /home/appuser
+    mkdir -p /home/appuser/.config /home/appuser/.claude /workspace && \
+    chown -R appuser:appuser /app /home/appuser /workspace
+
 
 USER appuser
 ENV HOME=/home/appuser
