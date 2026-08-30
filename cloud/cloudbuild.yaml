@@ -3,13 +3,13 @@ steps:
     args:
       - 'build'
       - '-t'
-      - 'gcr.io/gemini-unleashed-core/subagent-runner:v1.0.9'
+      - 'gcr.io/gemini-unleashed-core/subagent-runner:v1.0.10'
       - '-t'
       - 'gcr.io/gemini-unleashed-core/subagent-runner:latest'
       - '-f'
       - 'cloud/Dockerfile.subagent-runner'
       - '.'
 images:
-  - 'gcr.io/gemini-unleashed-core/subagent-runner:v1.0.9'
+  - 'gcr.io/gemini-unleashed-core/subagent-runner:v1.0.10'
   - 'gcr.io/gemini-unleashed-core/subagent-runner:latest'
 timeout: '900s'

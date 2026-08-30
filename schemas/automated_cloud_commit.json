@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AutomatedCloudCommitPayload",
+  "type": "object",
+  "required": [
+    "task_id",
+    "execution_plane",
+    "git_commit_sha",
+    "git_author",
+    "pushed_from_container",
+    "http_scheduler_method",
+    "residual_iowa_purged"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "task_id": { "type": "string", "pattern": "^TASK-PROD-[0-9]{8}-[A-Z0-9]{6}$" },
+    "execution_plane": { "type": "string", "enum": ["GCP_CLOUD_RUN_JOB_US_EAST4"] },
+    "git_commit_sha": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+    "git_author": { "type": "string", "enum": ["Gemini Unleashed Autonomous Subagent <schafertech89@gmail.com>"] },
+    "pushed_from_container": { "type": "boolean", "enum": [true] },
+    "http_scheduler_method": { "type": "string", "enum": ["POST"] },
+    "residual_iowa_purged": { "type": "boolean", "enum": [true] }
+  }
+}

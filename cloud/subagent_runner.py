@@ -163,8 +163,11 @@ class CloudSubagentRunner:
 
                         # Extract and persist code artifacts if present in stdout
                         target_file = task_envelope.get("target_file")
-                        if not target_file and "actuators/router_cloud_assist_adapter.py" in prompt:
-                            target_file = "actuators/router_cloud_assist_adapter.py"
+                        if not target_file:
+                            import re
+                            py_match = re.search(r'([a-zA-Z0-9_\-/]+\.py)', prompt)
+                            if py_match:
+                                target_file = py_match.group(1)
 
                         extracted_code = ""
                         if "```python" in stdout_text:
@@ -191,6 +194,34 @@ class CloudSubagentRunner:
                                 execution_result["jules_audit"] = jules_res
                             except Exception as j_err:
                                 execution_result["jules_audit"] = {"status": "SKIPPED", "notice": str(j_err)}
+
+                            # In-Container Git Commit & Remote Push via GITHUB_TOKEN
+                            github_token = os.environ.get("GITHUB_TOKEN")
+                            if github_token:
+                                try:
+                                    remote_url = f"https://x-access-token:{github_token}@github.com/mindbyteautomations/gemini-unleashed.git"
+                                    subprocess.run(["git", "config", "--global", "user.name", "Gemini Unleashed Autonomous Subagent"], cwd=PROJECT_ROOT, check=True)
+                                    subprocess.run(["git", "config", "--global", "user.email", "schafertech89@gmail.com"], cwd=PROJECT_ROOT, check=True)
+                                    subprocess.run(["git", "config", "--global", "--add", "safe.directory", "*"], cwd=PROJECT_ROOT, check=True)
+                                    if not os.path.exists(os.path.join(PROJECT_ROOT, ".git")):
+                                        subprocess.run(["git", "init"], cwd=PROJECT_ROOT, check=True)
+                                        subprocess.run(["git", "remote", "add", "origin", remote_url], cwd=PROJECT_ROOT, check=True)
+                                        subprocess.run(["git", "fetch", "origin", "main"], cwd=PROJECT_ROOT, check=True)
+                                        subprocess.run(["git", "checkout", "-b", "main", "origin/main"], cwd=PROJECT_ROOT, check=True)
+                                    else:
+                                        subprocess.run(["git", "remote", "set-url", "origin", remote_url], cwd=PROJECT_ROOT, check=True)
+
+                                    subprocess.run(["git", "add", target_file], cwd=PROJECT_ROOT, check=True)
+                                    commit_msg = f"feat(autonomous): add {target_file} synthesized by Claude Sonnet 5 in Cloud Run"
+                                    commit_res = subprocess.run(["git", "commit", "-m", commit_msg], capture_output=True, text=True, cwd=PROJECT_ROOT)
+                                    push_res = subprocess.run(["git", "push", "origin", "main"], capture_output=True, text=True, cwd=PROJECT_ROOT)
+                                    sha_res = subprocess.run(["git", "rev-parse", "HEAD"], capture_output=True, text=True, cwd=PROJECT_ROOT)
+                                    commit_sha = sha_res.stdout.strip()
+                                    execution_result["git_commit_sha"] = commit_sha
+                                    execution_result["pushed_from_container"] = (push_res.returncode == 0)
+                                    execution_result["git_push_status"] = push_res.stdout.strip() or push_res.stderr.strip()
+                                except Exception as g_err:
+                                    execution_result["git_error"] = str(g_err)
                     else:
                         err_msg = f"Claude CLI exited with code {res.returncode}: {res.stderr.strip() or res.stdout.strip()}"
                         execution_result["status"] = "FAILED"
