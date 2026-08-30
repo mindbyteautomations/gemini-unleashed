@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ArtifactAssimilationPayload",
+  "type": "object",
+  "required": [
+    "task_id",
+    "target_file",
+    "file_content",
+    "lines_of_code",
+    "ast_valid",
+    "complexity_score",
+    "git_commit_sha",
+    "persisted_to_disk"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "task_id": { "type": "string", "pattern": "^TASK-PROD-[0-9]{8}-[A-Z0-9]{6}$" },
+    "target_file": { "type": "string", "pattern": "^[a-zA-Z0-9_/-]+\\.py$" },
+    "file_content": { "type": "string", "minLength": 50 },
+    "lines_of_code": { "type": "integer", "minimum": 1 },
+    "ast_valid": { "type": "boolean", "enum": [true] },
+    "complexity_score": { "type": "number", "maximum": 15.0 },
+    "git_commit_sha": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+    "persisted_to_disk": { "type": "boolean", "enum": [true] }
+  }
+}

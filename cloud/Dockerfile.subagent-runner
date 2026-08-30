@@ -1,0 +1,52 @@
+# ==============================================================================
+# GEMINI UNLEASHED: CLOUD SUBAGENT RUNNER (LEAN MULTI-STAGE BUILD < 600MB)
+# Runs autonomous subagent tasks inside Google Cloud Run Jobs (us-central1)
+# ==============================================================================
+
+# Stage 1: Build Node.js toolchains & Claude Code CLI
+FROM node:20-slim AS node-builder
+WORKDIR /build
+RUN npm install -g --ignore-scripts=false @anthropic-ai/claude-code
+
+# Stage 2: Runtime Python & GCP Cloud Environment
+FROM python:3.11-slim AS runtime
+WORKDIR /app
+
+# Install system utilities and copy Node runtime
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    curl \
+    git \
+    ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy Node & Global npm binaries from Stage 1
+COPY --from=node-builder /usr/local/bin /usr/local/bin
+COPY --from=node-builder /usr/local/lib/node_modules /usr/local/lib/node_modules
+
+# Python Cloud SDK dependencies
+RUN pip install --no-cache-dir \
+    google-cloud-bigquery \
+    google-cloud-storage \
+    google-cloud-secret-manager \
+    google-cloud-firestore \
+    google-cloud-pubsub \
+    google-genai \
+    pydantic \
+    fastapi \
+    uvicorn
+
+# Copy application source
+COPY . /app
+
+# Create non-root runner user and set permissions
+RUN useradd -m -u 1000 appuser && \
+    mkdir -p /home/appuser/.config /home/appuser/.claude && \
+    chown -R appuser:appuser /app /home/appuser
+
+USER appuser
+ENV HOME=/home/appuser
+ENV PYTHONUNBUFFERED=1
+ENV GCP_PROJECT=gemini-unleashed-core
+
+# Entrypoint for Cloud Run Job execution
+ENTRYPOINT ["python", "/app/cloud/subagent_runner.py"]

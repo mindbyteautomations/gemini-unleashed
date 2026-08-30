@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CloudSubagentJobPayload",
+  "type": "object",
+  "required": [
+    "job_id",
+    "subagent_engine",
+    "execution_plane",
+    "gcp_project",
+    "container_image",
+    "service_account",
+    "task_envelope",
+    "secrets_mounted",
+    "timeout_seconds"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "job_id": {
+      "type": "string",
+      "pattern": "^JOB-[0-9]{8}-[A-Z0-9]{6}$"
+    },
+    "subagent_engine": {
+      "type": "string",
+      "enum": [
+        "agy_cli_cloud",
+        "claude_code_cloud",
+        "jules_vm_cloud",
+        "codex_ast_cloud",
+        "gcloud_sdk_cloud",
+        "gemini_companion_cloud"
+      ]
+    },
+    "execution_plane": {
+      "type": "string",
+      "enum": ["GCP_CLOUD_RUN_JOB", "GCP_CONTAINER_SANDBOX"]
+    },
+    "gcp_project": {
+      "type": "string",
+      "enum": ["gemini-unleashed-core"]
+    },
+    "container_image": {
+      "type": "string",
+      "pattern": "^gcr\\.io/gemini-unleashed-core/[a-z0-9_-]+:v?[0-9.]+$"
+    },
+    "service_account": {
+      "type": "string",
+      "enum": ["gemini-spark-mcp-sa@gemini-unleashed-core.iam.gserviceaccount.com"]
+    },
+    "task_envelope": {
+      "type": "object",
+      "required": ["task_id", "authority_level", "objective", "allowed_capabilities"],
+      "properties": {
+        "task_id": { "type": "string" },
+        "authority_level": { "type": "integer", "enum": [5] },
+        "objective": { "type": "string" },
+        "allowed_capabilities": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "secrets_mounted": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "timeout_seconds": {
+      "type": "integer",
+      "maximum": 1800
+    }
+  }
+}

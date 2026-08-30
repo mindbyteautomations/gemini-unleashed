@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "HardenedMultiAgentExecutionContract",
+  "type": "object",
+  "required": [
+    "execution_id",
+    "orchestrator_engine",
+    "cloud_assist_verified",
+    "synthesis_engine",
+    "ast_evaluator",
+    "adversarial_jail_isolated",
+    "region"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "execution_id": {
+      "type": "string",
+      "pattern": "^EXEC-[0-9]{8}-[A-Z0-9]{6}$"
+    },
+    "orchestrator_engine": {
+      "type": "string",
+      "enum": ["antigravity_orchestrator"]
+    },
+    "cloud_assist_verified": {
+      "type": "boolean",
+      "enum": [true]
+    },
+    "synthesis_engine": {
+      "type": "string",
+      "enum": ["claude-sonnet-5-ultracode"]
+    },
+    "ast_evaluator": {
+      "type": "string",
+      "enum": ["codex_ast_analyzer"]
+    },
+    "adversarial_jail_isolated": {
+      "type": "boolean",
+      "enum": [true]
+    },
+    "region": {
+      "type": "string",
+      "enum": ["us-east4", "us-central1"]
+    }
+  }
+}

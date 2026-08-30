@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ProductionMultiAgentExecutionContract",
+  "type": "object",
+  "required": [
+    "task_id",
+    "orchestrator",
+    "timestamp",
+    "target_files",
+    "concrete_directive",
+    "synthesis_proof",
+    "ast_validation",
+    "jules_audit",
+    "cloud_assist_check",
+    "region"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "task_id": { "type": "string", "pattern": "^TASK-PROD-[0-9]{8}-[A-Z0-9]{6}$" },
+    "orchestrator": { "type": "string", "enum": ["antigravity_cloud_orchestrator"] },
+    "timestamp": { "type": "string", "format": "date-time" },
+    "target_files": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1
+    },
+    "concrete_directive": {
+      "type": "object",
+      "required": ["action", "expected_diff", "acceptance_test"],
+      "properties": {
+        "action": { "type": "string", "enum": ["REFACTOR", "IMPLEMENT_FEATURE", "FIX_SECURITY_VULN"] },
+        "expected_diff": { "type": "string" },
+        "acceptance_test": { "type": "string" }
+      }
+    },
+    "synthesis_proof": {
+      "type": "object",
+      "required": ["engine", "exit_code", "diff_generated", "lines_changed"],
+      "properties": {
+        "engine": { "type": "string", "enum": ["claude-sonnet-5-ultracode"] },
+        "exit_code": { "type": "integer", "enum": [0] },
+        "diff_generated": { "type": "boolean", "enum": [true] },
+        "lines_changed": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "ast_validation": {
+      "type": "object",
+      "required": ["valid_syntax", "cyclomatic_complexity"],
+      "properties": {
+        "valid_syntax": { "type": "boolean", "enum": [true] },
+        "cyclomatic_complexity": { "type": "number", "maximum": 15.0 }
+      }
+    },
+    "jules_audit": {
+      "type": "object",
+      "required": ["receipt_id", "critical_vulnerabilities", "high_vulnerabilities"],
+      "properties": {
+        "receipt_id": { "type": "string" },
+        "critical_vulnerabilities": { "type": "integer", "enum": [0] },
+        "high_vulnerabilities": { "type": "integer", "enum": [0] }
+      }
+    },
+    "cloud_assist_check": {
+      "type": "object",
+      "required": ["api_queried", "http_status"],
+      "properties": {
+        "api_queried": { "type": "string", "enum": ["geminicloudassist.googleapis.com", "cloudaicompanion.googleapis.com"] },
+        "http_status": { "type": "integer", "enum": [200] }
+      }
+    },
+    "region": { "type": "string", "enum": ["us-east4"] }
+  }
+}

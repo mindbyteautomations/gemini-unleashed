@@ -80,18 +80,18 @@ class DeadManSwitchMonitor:
         }
 
         if is_flatlined:
-            print(f"🚨 [DEAD-MAN SWITCH ALERT] Heartbeat flatlined! Staleness: {delta_seconds:.1f}s (> {MAX_LIVENESS_DELTA_SECONDS}s).")
+            print(f"[DEAD-MAN SWITCH ALERT] Heartbeat flatlined! Staleness: {delta_seconds:.1f}s (> {MAX_LIVENESS_DELTA_SECONDS}s).")
             alert_dispatch = cls.dispatch_emergency_alert(report)
             report["dispatch_details"] = alert_dispatch
         else:
-            print(f"✅ [DEAD-MAN SWITCH] Heartbeat healthy. Staleness: {delta_seconds:.1f}s (SLO < {MAX_LIVENESS_DELTA_SECONDS}s).")
+            print(f"[DEAD-MAN SWITCH HEALTHY] Heartbeat healthy. Staleness: {delta_seconds:.1f}s (SLO < {MAX_LIVENESS_DELTA_SECONDS}s).")
 
         return report
 
     @classmethod
     def dispatch_emergency_alert(cls, alert_report: Dict[str, Any]) -> Dict[str, Any]:
         """Dispatches an emergency alert to dev@mindbyte.net via Workspace / PubSub."""
-        subject = f"🚨 EMERGENCY: Gemini Unleashed Autonomic Heartbeat Flatline ({alert_report['staleness_seconds']}s stale)"
+        subject = f"[EMERGENCY] Gemini Unleashed Autonomic Heartbeat Flatline ({alert_report['staleness_seconds']}s stale)"
         html_msg = f"""
         <h2>🚨 Gemini Unleashed Dead-Man's Switch Alert</h2>
         <p><strong>Warning:</strong> The supervisory heartbeat pipeline has flatlined.</p>

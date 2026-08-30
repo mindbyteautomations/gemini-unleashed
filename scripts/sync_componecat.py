@@ -22,6 +22,7 @@ if PROJECT_ROOT not in sys.path:
 COMPONECAT_ORG_ID = "019f8165-da76-74c3-8dce-be745244e59a"
 COMPONECAT_DIRECT_API = "https://app.componecat.ai/api/collections"
 
+
 def compile_componecat_sync_payload() -> Dict[str, Any]:
     registry_path = os.path.join(PROJECT_ROOT, "schemas", "capability_registry.json")
     with open(registry_path, "r", encoding="utf-8") as f:
@@ -105,7 +106,8 @@ def dispatch_direct_componecat_sync(
                 "endpoint": COMPONECAT_DIRECT_API,
                 "duration_ms": round(duration_ms, 2),
                 "response": resp_body[:1000],
-                "verified": status_code in (200, 201)
+                "verified": status_code in (200, 201),
+                "integration_status": "UPSTREAM_SYNCED"
             }
     except urllib.error.HTTPError as he:
         duration_ms = (time.time() - t0) * 1000.0
@@ -116,7 +118,8 @@ def dispatch_direct_componecat_sync(
             "duration_ms": round(duration_ms, 2),
             "error_reason": str(he.reason),
             "response": err_body[:500],
-            "verified": False
+            "verified": False,
+            "integration_status": "PENDING_UPSTREAM_API_KEY" if he.code in (401, 403, 404) else "UPSTREAM_ERROR"
         }
     except Exception as e:
         duration_ms = (time.time() - t0) * 1000.0
@@ -125,7 +128,8 @@ def dispatch_direct_componecat_sync(
             "endpoint": COMPONECAT_DIRECT_API,
             "duration_ms": round(duration_ms, 2),
             "error": str(e),
-            "verified": False
+            "verified": False,
+            "integration_status": "NETWORK_UNREACHABLE"
         }
 
 def execute_componecat_sync() -> Dict[str, Any]:
@@ -135,12 +139,13 @@ def execute_componecat_sync() -> Dict[str, Any]:
     print(f"Total Services: {payload['total_services']} | Contracts: {len(payload['capability_contracts'])}")
 
     telemetry = dispatch_direct_componecat_sync(payload)
-    print(f"Direct Ingress Result: HTTP {telemetry['http_status']} ({telemetry['duration_ms']}ms)")
+    print(f"Direct Ingress Result: HTTP {telemetry['http_status']} ({telemetry['duration_ms']}ms) -> Status: {telemetry['integration_status']}")
 
     sync_record = {
         "sync_payload": payload,
         "transmission_telemetry": telemetry,
-        "recorded_at": datetime.now(timezone.utc).isoformat()
+        "recorded_at": datetime.now(timezone.utc).isoformat(),
+        "status": telemetry["integration_status"]
     }
     
     out_path = os.path.join(PROJECT_ROOT, "schemas", "componecat_live_sync.json")

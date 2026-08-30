@@ -1,7 +1,7 @@
 {
   "sync_payload": {
     "org_id": "019f8165-da76-74c3-8dce-be745244e59a",
-    "sync_timestamp": "2026-08-29T21:41:21.335588+00:00",
+    "sync_timestamp": "2026-08-29T23:03:23.366869+00:00",
     "total_services": 17,
     "capability_contracts": [
       {
@@ -229,12 +229,13 @@
   },
   "transmission_telemetry": {
     "http_status": 404,
-    "target_url": "https://app.componecat.ai/api/v1/org/019f8165-da76-74c3-8dce-be745244e59a/collections/sync",
-    "sync_timestamp": "2026-08-29T21:41:21.592682+00:00",
-    "duration_ms": 256.63,
+    "endpoint": "https://app.componecat.ai/api/collections",
+    "duration_ms": 231.0,
     "error_reason": "Not Found",
     "response": "",
-    "verified": false
+    "verified": false,
+    "integration_status": "PENDING_UPSTREAM_API_KEY"
   },
-  "recorded_at": "2026-08-29T21:41:21.592742+00:00"
+  "recorded_at": "2026-08-29T23:03:23.598429+00:00",
+  "status": "PENDING_UPSTREAM_API_KEY"
 }

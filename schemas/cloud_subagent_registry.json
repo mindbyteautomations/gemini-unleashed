@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "UnifiedCloudSubagentRegistry",
+  "type": "object",
+  "required": [
+    "registry_version",
+    "updated_at",
+    "orchestrator",
+    "managed_engines",
+    "mcp_gateways",
+    "cloud_assist_apis"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "registry_version": { "type": "string", "enum": ["1.3.0"] },
+    "updated_at": { "type": "string", "format": "date-time" },
+    "orchestrator": {
+      "type": "object",
+      "required": ["engine_id", "execution_mode", "authority_level", "direct_coding_allowed"],
+      "properties": {
+        "engine_id": { "type": "string", "enum": ["antigravity_cloud_cli"] },
+        "execution_mode": { "type": "string", "enum": ["headless_scripted_agy_p"] },
+        "authority_level": { "type": "integer", "enum": [4] },
+        "direct_coding_allowed": { "type": "boolean", "enum": [false] }
+      }
+    },
+    "managed_engines": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["engine_name", "execution_plane", "model_profile", "auth_protocol", "authority_ceiling"],
+        "properties": {
+          "engine_name": {
+            "type": "string",
+            "enum": [
+              "claude_sonnet_5_ultracode",
+              "jules_vm_auditor",
+              "codex_ast_specialist",
+              "gemini_custom_managed_agent",
+              "gemini_code_assist"
+            ]
+          },
+          "execution_plane": { "type": "string", "enum": ["GCP_CLOUD_RUN_JOB", "GCP_COMPUTE_VM", "VERTEX_AGENT_ENGINE"] },
+          "model_profile": { "type": "string" },
+          "auth_protocol": { "type": "string" },
+          "authority_ceiling": { "type": "integer", "enum": [5] }
+        }
+      }
+    },
+    "mcp_gateways": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["gateway_id", "endpoint_uri", "transport", "auth_type"],
+        "properties": {
+          "gateway_id": { "type": "string" },
+          "endpoint_uri": { "type": "string", "format": "uri" },
+          "transport": { "type": "string", "enum": ["streamable_http", "sse", "jsonrpc_2_0"] },
+          "auth_type": { "type": "string", "enum": ["gcp_oidc_service_account", "oauth_2_0", "bearer_token"] }
+        }
+      }
+    },
+    "cloud_assist_apis": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["api_name", "endpoint_host", "auth_method"],
+        "properties": {
+          "api_name": { "type": "string", "enum": ["gemini_cloud_assist", "cloud_ai_companion", "cloud_cli_execution"] },
+          "endpoint_host": { "type": "string" },
+          "auth_method": { "type": "string", "enum": ["gcp_adc_oauth2"] }
+        }
+      }
+    }
+  }
+}

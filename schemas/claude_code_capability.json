@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ClaudeCodeSonnet5CapabilityDeclaration",
+  "type": "object",
+  "required": [
+    "capability_id",
+    "agent_identity",
+    "authority_level",
+    "risk_tier",
+    "model_engine",
+    "execution_profile",
+    "auth_mode",
+    "forbidden_actions"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "capability_id": {
+      "type": "string",
+      "enum": ["claude_code_synthesis", "claude_code_refactoring", "claude_code_cloud_runner"]
+    },
+    "agent_identity": {
+      "type": "string",
+      "enum": ["claude_code_specialist", "claude_code_cloud"]
+    },
+    "authority_level": {
+      "type": "integer",
+      "enum": [5]
+    },
+    "risk_tier": {
+      "type": "string",
+      "enum": ["LEVEL_2_INTERNAL"]
+    },
+    "model_engine": {
+      "type": "string",
+      "enum": ["claude-sonnet-5"]
+    },
+    "execution_profile": {
+      "type": "string",
+      "enum": ["ultracode"]
+    },
+    "auth_mode": {
+      "type": "string",
+      "enum": ["claude_max_session_oauth"]
+    },
+    "forbidden_actions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "modify_iam_policy",
+          "modify_billing_account",
+          "mutate_genesis_invariants",
+          "direct_redis_write",
+          "unauthenticated_git_push",
+          "silent_crash_masking"
+        ]
+      },
+      "uniqueItems": true
+    }
+  }
+}

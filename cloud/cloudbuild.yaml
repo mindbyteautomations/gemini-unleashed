@@ -1,0 +1,15 @@
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '-t'
+      - 'gcr.io/gemini-unleashed-core/subagent-runner:v1.0.9'
+      - '-t'
+      - 'gcr.io/gemini-unleashed-core/subagent-runner:latest'
+      - '-f'
+      - 'cloud/Dockerfile.subagent-runner'
+      - '.'
+images:
+  - 'gcr.io/gemini-unleashed-core/subagent-runner:v1.0.9'
+  - 'gcr.io/gemini-unleashed-core/subagent-runner:latest'
+timeout: '900s'

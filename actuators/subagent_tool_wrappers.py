@@ -39,7 +39,7 @@ class SubagentToolSuite:
         cls,
         prompt: str,
         task_envelope: Dict[str, Any],
-        model: str = "claude-3-7-sonnet",
+        model: str = "claude-sonnet-5",
         timeout_seconds: float = 60.0
     ) -> Dict[str, Any]:
         """Executes Claude Code CLI synthesis with real auth & timeout verification."""

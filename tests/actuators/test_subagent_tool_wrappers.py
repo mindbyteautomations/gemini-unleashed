@@ -4,6 +4,7 @@ Tests real tool execution, explicit error handling, and binary validations.
 """
 import os
 import sys
+import unittest.mock
 import pytest
 
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
@@ -77,10 +78,12 @@ class TestSubagentToolSuite:
 
     def test_execute_synthesis_with_fallback(self):
         """execute_synthesis_with_fallback executes safely via fallback when Claude Code is unauthenticated."""
-        res = SubagentToolSuite.execute_synthesis_with_fallback(
-            prompt="Generate parser",
-            task_envelope={"task_id": "TASK-FALLBACK-01"},
-            source_code_fallback="def parser(): return True\n"
-        )
-        assert res["status"] == "COMPLETED"
-        assert res["subagent"] in ["claude_code_cli", "codex_agent"]
+        with unittest.mock.patch("actuators.claude_code_actuator.ClaudeCodeActuator.check_auth_status", return_value={"authenticated": False, "error": "Simulated unauthenticated"}):
+            res = SubagentToolSuite.execute_synthesis_with_fallback(
+                prompt="Generate parser",
+                task_envelope={"task_id": "TASK-FALLBACK-01"},
+                source_code_fallback="def parser(): return True\n"
+            )
+            assert res["status"] == "COMPLETED"
+            assert res["subagent"] == "codex_agent"
+            assert res["mode"] == "FALLBACK_AUTONOMIC"

@@ -322,6 +322,74 @@ class AdversarialRunner:
             "vector_details": results
         }
 
+class JulesAdversarialHarness(AdversarialRunner):
+    @classmethod
+    def execute_full_adversarial_suite(cls, task_envelope: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Spawns the 7-vector adversarial fuzzing suite inside a detached subprocess jail
+        with strict timeout (30s) and isolated memory boundaries to prevent host process crash.
+        """
+        import subprocess
+        task_id = task_envelope.get("task_id", f"TASK-{secrets.token_hex(3).upper()}")
+        
+        code_script = (
+            "import json, sys, os\n"
+            "sys.path.insert(0, os.getcwd())\n"
+            "from harness.adversarial_runner import AdversarialRunner\n"
+            f"res = AdversarialRunner.run_full_adversarial_suite(task_id='{task_id}')\n"
+            "print(json.dumps(res))\n"
+        )
+        try:
+            sub = subprocess.run(
+                [sys.executable, "-c", code_script],
+                capture_output=True,
+                text=True,
+                timeout=30.0,
+                cwd=PROJECT_ROOT
+            )
+            if sub.returncode == 0:
+                res = json.loads(sub.stdout.strip())
+                receipt = res["audit_receipt"]
+                return {
+                    "receipt_id": receipt["receipt_id"],
+                    "task_id": task_id,
+                    "verdict": receipt["audit_verdict"],
+                    "vectors_tested": receipt["vectors_tested"],
+                    "vulnerabilities_found": receipt["critical_vulnerabilities"] + receipt["high_vulnerabilities"],
+                    "sandbox_isolation": "SUBPROCESS_JAIL_ISOLATED",
+                    "audit_receipt": receipt
+                }
+            else:
+                return {
+                    "receipt_id": f"RCPT-JULES-FAILED-{secrets.token_hex(3).upper()}",
+                    "task_id": task_id,
+                    "verdict": "AUDIT_REJECTED_SANDBOX_CRASH",
+                    "vectors_tested": 0,
+                    "vulnerabilities_found": 1,
+                    "sandbox_isolation": "SUBPROCESS_JAIL_CONTAINED",
+                    "error": sub.stderr.strip()
+                }
+        except subprocess.TimeoutExpired:
+            return {
+                "receipt_id": f"RCPT-JULES-TIMEOUT-{secrets.token_hex(3).upper()}",
+                "task_id": task_id,
+                "verdict": "AUDIT_REJECTED_TIMEOUT",
+                "vectors_tested": 0,
+                "vulnerabilities_found": 1,
+                "sandbox_isolation": "SUBPROCESS_JAIL_TIMEOUT_KILLED"
+            }
+        except Exception:
+            res = cls.run_full_adversarial_suite(task_id=task_id)
+            return {
+                "receipt_id": res["audit_receipt"]["receipt_id"],
+                "task_id": task_id,
+                "verdict": res["audit_receipt"]["audit_verdict"],
+                "vectors_tested": res["audit_receipt"]["vectors_tested"],
+                "vulnerabilities_found": res["audit_receipt"]["critical_vulnerabilities"] + res["audit_receipt"]["high_vulnerabilities"],
+                "sandbox_isolation": "SUBPROCESS_JAIL_FALLBACK",
+                "audit_receipt": res["audit_receipt"]
+            }
+
 if __name__ == "__main__":
     print("=== Executing Jules Adversarial Fuzzing Suite ===")
     suite_res = AdversarialRunner.run_full_adversarial_suite()
