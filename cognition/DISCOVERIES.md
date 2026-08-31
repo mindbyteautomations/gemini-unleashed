@@ -210,3 +210,9 @@
 - **Finding:** Validated OWAI utility optimization: filtering inquiries with Utility > 2.0 prevents redundant LLM reasoning and protects budget limits.
 - **Calibrated Confidence:** `0.97`
 - **Heartbeat Pulse:** `HB-fdd0ab81`
+
+### `[OBS-0e76026a]` Epistemic Immune System &mdash; *2026-08-31T20:38:30.605666+00:00*
+- **Entity:** Cognitive Kernel
+- **Finding:** Validated OWAI utility optimization: filtering inquiries with Utility > 2.0 prevents redundant LLM reasoning and protects budget limits.
+- **Calibrated Confidence:** `0.97`
+- **Heartbeat Pulse:** `HB-b125771a`
