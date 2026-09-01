@@ -9,6 +9,7 @@ venv/
 
 # Secrets & Service Account Keys
 *.json.key
+.mcp.json
 *secret*
 *token*
 !agents/registry.json
