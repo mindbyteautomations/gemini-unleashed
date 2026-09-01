@@ -16,11 +16,13 @@ fi
 
 # Explicit argument wins, then .env, then the known drop locations.
 CANDIDATES=()
+# Deliberately no in-repo location: the key lives outside the working tree so
+# that no gitignore rule, and no tool that ignores gitignore, stands between
+# the key and a public remote.
 for c in \
   "${1:-}" \
   "${GOOGLE_APPLICATION_CREDENTIALS:-}" \
-  "/root/.claude/gcp/sa-key.json" \
-  "$REPO/secrets/sa-key.json"
+  "/root/.claude/gcp/sa-key.json"
 do
   [[ -z "$c" ]] && continue
   for seen in ${CANDIDATES[@]+"${CANDIDATES[@]}"}; do
