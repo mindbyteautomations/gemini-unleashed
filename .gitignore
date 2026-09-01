@@ -19,3 +19,14 @@ venv/
 # Logs
 *.log
 logs/
+
+# GCP service account keys
+# Console-downloaded keys use the name <project-id>-<hex>.json, which is not
+# matched by *.json.key / *secret* / *token* above.
+gemini-unleashed-core-*.json
+service-account*.json
+sa-key*.json
+gcp-*.json
+credentials.json
+application_default_credentials.json
+secrets/
