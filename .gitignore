@@ -19,3 +19,14 @@ venv/
 # Logs
 *.log
 logs/
+
+# GCP service account keys
+# Console-downloaded keys are named PROJECTID-12HEX.json, which is not
+# matched by *.json.key / *secret* / *token* above.
+*-[0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f].json
+service-account*.json
+sa-key*.json
+gcp-*.json
+credentials.json
+application_default_credentials.json
+secrets/
