@@ -58,6 +58,14 @@ fi
 
 chmod 600 "$KEY"
 
+# CLOUDSDK_AUTH_ACCESS_TOKEN overrides the credential store entirely, and
+# gcloud auth print-access-token just echoes it back - so leaving it set
+# would both break real API calls and make the check below pass regardless.
+if [[ -n "${CLOUDSDK_AUTH_ACCESS_TOKEN:-}" ]]; then
+  echo "note: unsetting CLOUDSDK_AUTH_ACCESS_TOKEN, which would override this key"
+  unset CLOUDSDK_AUTH_ACCESS_TOKEN
+fi
+
 SA="$(jq -r .client_email "$KEY")"
 PROJECT="${GOOGLE_CLOUD_PROJECT:-$(jq -r .project_id "$KEY")}"
 
@@ -77,4 +85,14 @@ if gcloud auth print-access-token >/dev/null 2>&1; then
 else
   echo "token fetch FAILED - key activated but cannot mint a token" >&2
   exit 1
+fi
+
+# The unset above applied to this script's shell only. If the variable is set
+# in the container environment it will be back in the next shell, overriding
+# the credential just activated.
+if env | grep -q '^CLOUDSDK_AUTH_ACCESS_TOKEN='; then
+  echo
+  echo "warning: CLOUDSDK_AUTH_ACCESS_TOKEN is set in the environment." >&2
+  echo "It overrides this credential in every new shell. Unset it there," >&2
+  echo "or prefix gcloud calls with 'env -u CLOUDSDK_AUTH_ACCESS_TOKEN'." >&2
 fi
